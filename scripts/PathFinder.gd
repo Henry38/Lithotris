@@ -15,7 +15,7 @@ func find_next_nodes(tilemap: TileMap, pos : Vector2, dest : Vector2, visited : 
 	visited[vHash] = true
 	
 	# Empty 
-	if tilemap.get_cellv(pos) <= 0:
+	if tilemap.get_cellv(pos) <= tilemap.global.BACKGROUND_TILE:
 		return false
 		
 	var directions = [
@@ -29,6 +29,6 @@ func find_next_nodes(tilemap: TileMap, pos : Vector2, dest : Vector2, visited : 
 		var cValue = tilemap.get_cellv(dir)
 		# Conductor = tile 1
 		# Arrival = tile 4
-		if (cValue == 1 or cValue == 4) and find_next_nodes(tilemap, dir, dest, visited):
+		if (cValue == tilemap.global.CONDUCTOR_TILE or cValue == tilemap.global.ENDING_TILE) and find_next_nodes(tilemap, dir, dest, visited):
 			return true
 	return false
