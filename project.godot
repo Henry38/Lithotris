@@ -16,8 +16,16 @@ _global_script_class_icons={
 [application]
 
 config/name="Lithotris"
-run/main_scene="res://scenes/MainMenu.tscn"
+run/main_scene="res://scenes/Main.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+global="res://scripts/global.gd"
+
+[display]
+
+mouse_cursor/custom_image="res://images/cursor.png"
 
 [rendering]
 
