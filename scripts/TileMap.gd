@@ -35,18 +35,19 @@ func _ready():
 	$timer.connect("timeout", self, "trigger")
 
 func _process(delta):
-	if Input.is_action_just_pressed("rotate_left"):
-		rotate_block(current_block, "left")
-	elif Input.is_action_just_pressed("rotate_right"):
-		rotate_block(current_block, "right")
-	
-	if Input.is_action_just_pressed("move_left"):
-		update_block(current_block, Vector2(-1, 0))
-	elif Input.is_action_just_pressed("move_right"):
-		update_block(current_block, Vector2(1, 0))
+	if not $timer.paused:
+		if Input.is_action_just_pressed("rotate_left"):
+			rotate_block(current_block, "left")
+		elif Input.is_action_just_pressed("rotate_right"):
+			rotate_block(current_block, "right")
 		
-	if Input.is_action_just_pressed("move_down"):
-		move_block_down(current_block)
+		if Input.is_action_just_pressed("move_left"):
+			update_block(current_block, Vector2(-1, 0))
+		elif Input.is_action_just_pressed("move_right"):
+			update_block(current_block, Vector2(1, 0))
+			
+		if Input.is_action_just_pressed("move_down"):
+			move_block_down(current_block)
 	
 	if display_lithopgraphy_power_up:
 		displayResin()
