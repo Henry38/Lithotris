@@ -13,8 +13,8 @@ export(int) var width = 10
 export(int) var height = 20
 
 var pathFinder = preload("res://scripts/PathFinder.gd").new()
-onready var startPoint = Vector2(width, 10)
-onready var endPoint = Vector2(0, height - 1)
+onready var startPoint = Vector2(0, height - 1)
+onready var endPoint = Vector2(10, width)
 
 const WALL_TILE = 5
 const BACKGROUND_TILE = 0
@@ -28,7 +28,7 @@ const shapes = [
 ]
 
 # Called when the node enters the scene tree for the first time.
-func _ready():	
+func _ready():
 	randomize()
 	init_grid()
 	self.set_cellv(startPoint, 3)
