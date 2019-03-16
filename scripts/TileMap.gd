@@ -67,7 +67,7 @@ func _input(event):
 			removeResin()
 			$timer.set_paused(false)
 		elif event is InputEventMouseButton and event.pressed:
-			var cx = int(event.position.x / (self.cell_size.x * self.scale.x))
+			var cx = int((event.position.x - 300) / (self.cell_size.x * self.scale.x))
 			var cy = int(event.position.y / (self.cell_size.y * self.scale.y))
 
 			for r in resin_blocks:
