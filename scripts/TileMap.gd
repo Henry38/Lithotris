@@ -206,7 +206,7 @@ func displayResin():
 func removeResin():
 	for p in resin_blocks:
 		var id = self.get_cell(p.x,p.y)
-		if id == 2:
+		if id == -1:
 			var id_below = self.get_cell(p.x,p.y+1)
 			if id_below == 1:
 				self.set_cell(p.x,p.y+1,-1)
