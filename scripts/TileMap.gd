@@ -95,7 +95,7 @@ func createNewBlock():
 	var rand_tilemap : TileMap = shapes[randi() % shapes.size()].instance()
 	var new_block = FallingObject.new(1, rand_tilemap.get_used_cells())
 	new_block.x = 10
-	new_block.y = 30
+	new_block.y = 5
 	current_block = new_block
 
 # Return true if the current block touch the ground else false
@@ -177,7 +177,7 @@ func clearBlock(block):
 		for x in range(0,w):
 			var id = block.get_cell(x,y)
 			if id > 0:
-				self.set_cell(pos.x + x, pos.y + y, -1)
+				self.set_cell(pos.x + x, pos.y + y, 0)
 
 func displayBlock(block):
 	if block == null:
