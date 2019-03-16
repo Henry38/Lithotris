@@ -14,3 +14,10 @@ const LIGHTENED_CONDUCTOR_TILE = 8
 # Called when the node enters the scene tree for the first time.
 func _ready():
     pass
+
+func is_conductor(v : int) -> bool:
+	return v == CONDUCTOR_TILE or v == LIGHTENED_CONDUCTOR_TILE
+	
+func is_useless(v : int) -> bool:
+	return v <= 0
+	

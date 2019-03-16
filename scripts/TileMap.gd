@@ -1,6 +1,7 @@
 extends TileMap
 
 signal generate_block
+signal prepare_block
 
 var FallingObject = preload("res://scripts/FallingObject.gd")
 var global = preload("res://scripts/global.gd")
@@ -128,6 +129,7 @@ func createNewBlock():
 	new_block.y = 1
 	current_block = new_block
 	emit_signal("generate_block")
+	emit_signal("prepare_block", new_block)
 
 # Return true if the current block touch the ground else false
 func checkCollisionBlock(block) -> bool:
