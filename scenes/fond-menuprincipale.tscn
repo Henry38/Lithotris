@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://images/fond-menuprincipale.jpg" type="Texture" id=1]
+
+[node name="fond-menuprincipale" type="Sprite"]
+position = Vector2( 956.613, 548.743 )
+texture = ExtResource( 1 )
+
