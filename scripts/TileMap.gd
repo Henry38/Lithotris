@@ -11,12 +11,9 @@ var picking_resin_state_on = false
 export(int) var width = 10
 export(int) var height = 20
 
-var map_width : int = 30	# TODO: remove this shit
-var map_height : int = 38
-
 var pathFinder = preload("res://scripts/PathFinder.gd").new()
-const startPoint = Vector2(31, 10)
-const endPoint = Vector2(0, 17)
+onready var startPoint = Vector2(width, 10)
+onready var endPoint = Vector2(0, height - 1)
 
 const WALL_TILE = 5
 const BACKGROUND_TILE = 0
@@ -221,8 +218,8 @@ func displayBlock(block):
 
 func displayResin():
 	resin_blocks.clear()
-	for x in range(1,map_width):
-		for y in range(1,map_height):
+	for x in range(1,width):
+		for y in range(1,height):
 			var id = self.get_cell(x,y)
 			if id > 0:
 				resin_blocks.append(Vector2(x,y-1))
