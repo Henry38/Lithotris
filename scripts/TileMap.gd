@@ -36,7 +36,6 @@ func createNewBlock():
 	var new_block = FallingObject.new(1, pos)
 	new_block.x = 10
 	new_block.y = 10
-	#var new_block = null #FallingObject.new()	# TODO + setter la position
 	current_block = new_block
 	blocks.append(new_block)
 

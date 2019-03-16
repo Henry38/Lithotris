@@ -57,8 +57,52 @@ func cell_position():
 	return Vector2(x, y)
 
 func rotate_right():
-	pass
-		
+	var transpose = []
+	var copy_transpose = []
+	var w = self.height
+	var h = self.width
+
+	for y in range(0,self.height):
+		transpose.append([])
+		copy_transpose.append([])
+		for x in range(0,self.width):
+			transpose[y].append(self.matrix[x][y])
+			copy_transpose[y].append(self.matrix[x][y])
+
+	var nw : int = int(w / 2)
+	var nh : int = int(h / 2)
+
+	for y in range(0,h):
+		for x in range(0,nw):
+			transpose[x][y] = copy_transpose[w-1-x][y]
+			transpose[w-1-x][y] = copy_transpose[x][y]
+			
+	self.width = w
+	self.height = h
+	self.matrix = transpose
+
 func rotate_left():
-	pass
-	
+	var transpose = []
+	var copy_transpose = []
+	var w = self.height
+	var h = self.width
+
+	for y in range(0,self.height):
+		transpose.append([])
+		copy_transpose.append([])
+		for x in range(0,self.width):
+			transpose[y].append(self.matrix[x][y])
+			copy_transpose[y].append(self.matrix[x][y])
+
+	var nw : int = int(w / 2)
+	var nh : int = int(h / 2)
+
+	for x in range(0,w):
+		for y in range(0,nh):
+			transpose[x][y] = copy_transpose[x][h-1-y]
+			transpose[x][h-1-y] = copy_transpose[x][y]
+
+	self.width = w
+	self.height = h
+	self.matrix = transpose
+
