@@ -11,12 +11,12 @@ var shapes = [
 	preload("res://scenes/shapes/LShape.tscn"),
 	preload("res://scenes/shapes/SquiglyShape.tscn"),
 	preload("res://scenes/shapes/TShape.tscn")
-	
 ]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Set Timer connexion
+	randomize()
 	$timer.connect("timeout", self, "trigger")
 
 func _process(delta):
@@ -109,8 +109,12 @@ func rotate_block(block, direction = "left"):
 	clearBlock(block)
 	if direction == "left":
 		block.rotate_left()
+		if checkCollisionBlock(block):
+			block.rotate_right()
 	elif direction == "right":
 		block.rotate_right()
+		if checkCollisionBlock(block):
+			block.rotate_left()
 	displayBlock(block)
 
 func moveBlock(block):
