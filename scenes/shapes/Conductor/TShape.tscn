@@ -2,9 +2,9 @@
 
 [ext_resource path="res://resources/tileSet.tres" type="TileSet" id=1]
 
-[node name="SquareShape" type="TileMap"]
+[node name="SquiglyShape" type="TileMap"]
 tile_set = ExtResource( 1 )
 cell_quadrant_size = 64
 format = 1
-tile_data = PoolIntArray( 1, 40, 0, 65536, 44, 0, 65537, 42, 0, 65538, 43, 0 )
+tile_data = PoolIntArray( 1, 40, 0, 65536, 41, 0, 65537, 42, 0, 65538, 43, 0 )
 

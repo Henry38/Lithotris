@@ -4,6 +4,7 @@
 
 [node name="LShape" type="TileMap"]
 tile_set = ExtResource( 1 )
+cell_quadrant_size = 64
 format = 1
-tile_data = PoolIntArray( 2, 8, 0, 65536, 11, 0, 65537, 10, 0, 65538, 9, 0 )
+tile_data = PoolIntArray( 0, 0, 0, 1, 10, 0, 2, 5, 0, 65536, 2, 0 )
 

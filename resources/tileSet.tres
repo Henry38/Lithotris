@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=17 format=2]
+[gd_resource type="TileSet" load_steps=16 format=2]
 
 [ext_resource path="res://images/isolant2.png" type="Texture" id=1]
 [ext_resource path="res://images/isolant4.png" type="Texture" id=2]
@@ -15,7 +15,6 @@
 [ext_resource path="res://images/conducteur7.png" type="Texture" id=13]
 [ext_resource path="res://images/PointB.png" type="Texture" id=14]
 [ext_resource path="res://images/resine.png" type="Texture" id=15]
-[ext_resource path="res://images/isolant1.png" type="Texture" id=16]
 
 [resource]
 0/name = "isolant2.png 0"
@@ -558,3 +557,4 @@
 53/navigation_offset = Vector2( 0, 0 )
 53/shapes = [  ]
 53/z_index = 0
+
