@@ -1,15 +1,15 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://scenes/Ecologicalimpact.gd" type="Script" id=1]
+[ext_resource path="res://scripts/Ecologicalimpact.gd" type="Script" id=1]
 [ext_resource path="res://scenes/material/Ecologicalimpact.tres" type="Texture" id=2]
 [ext_resource path="res://images/icons/tete-mort-46.png" type="Texture" id=3]
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0 )
 colors = PoolColorArray( 1, 1, 1, 1 )
 
-[sub_resource type="GradientTexture" id=1]
-gradient = SubResource( 2 )
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
 
 [node name="Control" type="Control"]
 script = ExtResource( 1 )
@@ -31,7 +31,7 @@ margin_right = 2056.0
 margin_bottom = 2.0
 rect_scale = Vector2( 1, 10 )
 rect_clip_content = true
-texture_under = SubResource( 1 )
+texture_under = SubResource( 2 )
 texture_progress = ExtResource( 2 )
 
 [node name="icon" type="Sprite" parent="Node"]
