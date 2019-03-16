@@ -45,7 +45,7 @@ func _process(delta):
 		display_lithopgraphy_power_up = false
 		picking_resin_state_on = true
 
-func _input(event):
+func _input(event):	
 	if not $timer.paused and event.is_action_pressed("lithography_power_up"):
 		if not preload_lithopgraphy_power_up:
 			preload_lithopgraphy_power_up = true
