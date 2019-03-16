@@ -82,8 +82,8 @@ func _input(event):
 						self.set_cell(cx,cy,7)
 
 func init_grid():
-	for y in range(height):
-		for x in range(width):
+	for y in range(height + 1):
+		for x in range(width + 1):
 			if y == 0 or x == 0 or x == width or y == height:
 				self.set_cell(x, y, WALL_TILE)
 			else:
