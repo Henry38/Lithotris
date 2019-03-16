@@ -12,6 +12,11 @@ var picking_resin_state_on = false
 var map_width : int = 30
 var map_height : int = 38
 
+var pathFinder = preload("res://scripts/PathFinder.gd").new()
+const startPoint = Vector2(0, 10)
+const endPoint = Vector2(0, 17)
+
+
 var shapes = [
 	preload("res://scenes/shapes/Isolation/SquareShape.tscn"),
 	preload("res://scenes/shapes/Isolation/BarShape.tscn"),
@@ -24,6 +29,8 @@ var shapes = [
 func _ready():
 	# Set Timer connexion
 	randomize()
+	self.set_cellv(startPoint, 3)
+	self.set_cellv(endPoint, 4)
 	$timer.connect("timeout", self, "trigger")
 
 func _process(delta):
@@ -46,6 +53,9 @@ func _process(delta):
 		picking_resin_state_on = true
 
 func _input(event):	
+	if event.is_action_pressed("debug"):
+		print(pathFinder.pathfind(self, startPoint, endPoint))
+
 	if not $timer.paused and event.is_action_pressed("lithography_power_up"):
 		if not preload_lithopgraphy_power_up:
 			preload_lithopgraphy_power_up = true
@@ -85,6 +95,9 @@ func move_block_down(block):
 	if checkCollisionBlock(current_block):
 		move_block(current_block, Vector2(0, -1))
 		displayBlock(current_block)
+		if pathFinder.pathfind(self, startPoint, endPoint):
+			print("Finished")
+			return
 		if not preload_lithopgraphy_power_up:
 			createNewBlock()
 		else:
