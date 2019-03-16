@@ -9,7 +9,7 @@ var preload_lithopgraphy_power_up = false
 var display_lithopgraphy_power_up = false
 var picking_resin_state_on = false
 
-var map_width : int = 30
+var map_width : int = 30	# TODO: remove this shit
 var map_height : int = 38
 
 var pathFinder = preload("res://scripts/PathFinder.gd").new()
@@ -66,16 +66,16 @@ func _input(event):
 			removeResin()
 			$timer.set_paused(false)
 		elif event is InputEventMouseButton and event.pressed:
-			var cx = int(event.position.x / self.cell_size.x)
-			var cy = int(event.position.y / self.cell_size.y)
+			var cx = int(event.position.x / (self.cell_size.x * self.scale.x))
+			var cy = int(event.position.y / (self.cell_size.y * self.scale.y))
 
 			for r in resin_blocks:
 				if r == Vector2(cx,cy):
 					var id = self.get_cell(cx,cy)
-					if id <= 0:
-						self.set_cell(cx,cy,2)
-					if id == 2:
-						self.set_cell(cx,cy,-1)
+					if id == 7:
+						self.set_cell(cx,cy,6)
+					if id == 6:
+						self.set_cell(cx,cy,7)
 
 func trigger():
 	if current_block == null and preload_lithopgraphy_power_up:
@@ -213,14 +213,14 @@ func displayResin():
 			var id = self.get_cell(x,y)
 			if id > 0:
 				resin_blocks.append(Vector2(x,y-1))
-				self.set_cell(x,y-1,2)
+				self.set_cell(x,y-1,6)
 				break
 
 func removeResin():
 	for p in resin_blocks:
 		var id = self.get_cell(p.x,p.y)
-		if id <= 0:
+		if id == 7:
 			var id_below = self.get_cell(p.x,p.y+1)
-			if id_below == 1:
-				self.set_cell(p.x,p.y+1,-1)
-		self.set_cell(p.x,p.y,-1)
+			if id_below == 2:
+				self.set_cell(p.x,p.y+1,0)
+		self.set_cell(p.x,p.y,0)
