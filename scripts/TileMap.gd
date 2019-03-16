@@ -17,12 +17,12 @@ const startPoint = Vector2(0, 10)
 const endPoint = Vector2(0, 17)
 
 
-var shapes = [
-	preload("res://scenes/shapes/Isolation/SquareShape.tscn"),
-	preload("res://scenes/shapes/Isolation/BarShape.tscn"),
-	preload("res://scenes/shapes/Isolation/LShape.tscn"),
-	preload("res://scenes/shapes/Isolation/SquiglyShape.tscn"),
-	preload("res://scenes/shapes/Isolation/TShape.tscn")
+const shapes = [
+	preload("res://scenes/shapes/SquareShape.tscn"),
+	preload("res://scenes/shapes/BarShape.tscn"),
+	preload("res://scenes/shapes/LShape.tscn"),
+	preload("res://scenes/shapes/SquiglyShape.tscn"),
+	preload("res://scenes/shapes/TShape.tscn")
 ]
 
 # Called when the node enters the scene tree for the first time.
@@ -106,7 +106,7 @@ func move_block_down(block):
 
 func createNewBlock():
 	var rand_tilemap : TileMap = shapes[randi() % shapes.size()].instance()
-	var new_block = FallingObject.new(1, rand_tilemap.get_used_cells())
+	var new_block = FallingObject.new(1 + (randi() % 2), rand_tilemap.get_used_cells())
 	new_block.x = 10
 	new_block.y = 5
 	current_block = new_block
