@@ -13,11 +13,11 @@ var map_width : int = 30
 var map_height : int = 38
 
 var shapes = [
-	preload("res://scenes/shapes/SquareShape.tscn"),
-	preload("res://scenes/shapes/BarShape.tscn"),
-	preload("res://scenes/shapes/LShape.tscn"),
-	preload("res://scenes/shapes/SquiglyShape.tscn"),
-	preload("res://scenes/shapes/TShape.tscn")
+	preload("res://scenes/shapes/Isolation/SquareShape.tscn"),
+	preload("res://scenes/shapes/Isolation/BarShape.tscn"),
+	preload("res://scenes/shapes/Isolation/LShape.tscn"),
+	preload("res://scenes/shapes/Isolation/SquiglyShape.tscn"),
+	preload("res://scenes/shapes/Isolation/TShape.tscn")
 ]
 
 # Called when the node enters the scene tree for the first time.
