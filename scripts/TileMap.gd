@@ -4,6 +4,13 @@ var FallingObject = preload("res://scripts/FallingObject.gd")
 
 # Main variables
 var current_block = null
+var resin_blocks = []
+var preload_lithopgraphy_power_up = false
+var display_lithopgraphy_power_up = false
+var picking_resin_state_on = false
+
+var map_width : int = 30
+var map_height : int = 38
 
 var shapes = [
 	preload("res://scenes/shapes/SquareShape.tscn"),
@@ -32,9 +39,41 @@ func _process(delta):
 		
 	if Input.is_action_just_pressed("move_down"):
 		move_block_down(current_block)
+	
+	if display_lithopgraphy_power_up:
+		displayResin()
+		display_lithopgraphy_power_up = false
+		picking_resin_state_on = true
 
+func _input(event):
+	if not $timer.paused and event.is_action_pressed("lithography_power_up"):
+		if not preload_lithopgraphy_power_up:
+			preload_lithopgraphy_power_up = true
+
+	if picking_resin_state_on:
+		if event is InputEventKey and event.pressed and event.scancode == KEY_SHIFT:
+			picking_resin_state_on = false
+			removeResin()
+			$timer.set_paused(false)
+		elif event is InputEventMouseButton and event.pressed:
+			var cx = int(event.position.x / self.cell_size.x)
+			var cy = int(event.position.y / self.cell_size.y)
+
+			for r in resin_blocks:
+				if r == Vector2(cx,cy):
+					var id = self.get_cell(cx,cy)
+					if id == -1:
+						self.set_cell(cx,cy,2)
+					if id == 2:
+						self.set_cell(cx,cy,-1)
 
 func trigger():
+	if current_block == null and preload_lithopgraphy_power_up:
+		$timer.set_paused(true)
+		preload_lithopgraphy_power_up = false
+		display_lithopgraphy_power_up = true
+		return
+
 	move_block_down(current_block)
 
 func move_block_down(block):
@@ -46,14 +85,17 @@ func move_block_down(block):
 	if checkCollisionBlock(current_block):
 		move_block(current_block, Vector2(0, -1))
 		displayBlock(current_block)
-		createNewBlock()
+		if not preload_lithopgraphy_power_up:
+			createNewBlock()
+		else:
+			current_block = null
 	displayBlock(current_block)
 
 func createNewBlock():
 	var rand_tilemap : TileMap = shapes[randi() % shapes.size()].instance()
 	var new_block = FallingObject.new(1, rand_tilemap.get_used_cells())
 	new_block.x = 10
-	new_block.y = 10
+	new_block.y = 30
 	current_block = new_block
 
 # Return true if the current block touch the ground else false
@@ -150,3 +192,22 @@ func displayBlock(block):
 			var id = block.get_cell(x,y)
 			if id != -1:
 				self.set_cell(pos.x + x, pos.y + y, id)
+
+func displayResin():
+	resin_blocks.clear()
+	for x in range(1,map_width):
+		for y in range(1,map_height):
+			var id = self.get_cell(x,y)
+			if id != -1:
+				resin_blocks.append(Vector2(x,y-1))
+				self.set_cell(x,y-1,2)
+				break
+
+func removeResin():
+	for p in resin_blocks:
+		var id = self.get_cell(p.x,p.y)
+		if id == -1:
+			var id_below = self.get_cell(p.x,p.y+1)
+			if id_below == 1:
+				self.set_cell(p.x,p.y+1,-1)
+		self.set_cell(p.x,p.y,-1)
