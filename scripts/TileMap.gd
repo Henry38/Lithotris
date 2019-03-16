@@ -3,15 +3,20 @@ extends TileMap
 var FallingObject = preload("res://scripts/FallingObject.gd")
 
 # Main variables
-var create_new_block = true
 var current_block = null
-var blocks = []
 
-var pos = [Vector2(0,0), Vector2(1,0), Vector2(0,1), Vector2(2,0)]
+var shapes = [
+	preload("res://scenes/shapes/SquareShape.tscn"),
+	preload("res://scenes/shapes/BarShape.tscn"),
+	preload("res://scenes/shapes/LShape.tscn"),
+	preload("res://scenes/shapes/SquiglyShape.tscn"),
+	preload("res://scenes/shapes/TShape.tscn")
+]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Set Timer connexion
+	randomize()
 	$timer.connect("timeout", self, "trigger")
 
 func _process(delta):
@@ -19,36 +24,42 @@ func _process(delta):
 		rotate_block(current_block, "left")
 	elif Input.is_action_just_pressed("rotate_right"):
 		rotate_block(current_block, "right")
+	
+	if Input.is_action_just_pressed("move_left"):
+		update_block(current_block, Vector2(-1, 0))
+	elif Input.is_action_just_pressed("move_right"):
+		update_block(current_block, Vector2(1, 0))
+		
+	if Input.is_action_just_pressed("move_down"):
+		move_block_down(current_block)
+
 
 func trigger():
-	# Creer nouvelle piece ?
-	if create_new_block:
-		create_new_block = false
+	move_block_down(current_block)
+
+func move_block_down(block):
+	if current_block == null:
 		createNewBlock()
-
-	# Si la  piece doit s'arreter
-	elif checkCollisionBlock(current_block):
-		create_new_block = true
-		current_block = null
-
-	# Sinon dscendre la piece	
-	else:
-		clearBlock(current_block)
-		moveBlock(current_block)
-
+	
+	clearBlock(current_block)
+	move_block(current_block, Vector2(0, 1) )
+	if checkCollisionBlock(current_block):
+		move_block(current_block, Vector2(0, -1))
+		displayBlock(current_block)
+		createNewBlock()
 	displayBlock(current_block)
 
 func createNewBlock():
-	var new_block = FallingObject.new(1, pos)
+	var rand_tilemap : TileMap = shapes[randi() % shapes.size()].instance()
+	var new_block = FallingObject.new(1, rand_tilemap.get_used_cells())
 	new_block.x = 10
 	new_block.y = 10
 	current_block = new_block
-	blocks.append(new_block)
 
 # Return true if the current block touch the ground else false
-func checkCollisionBlock(block):
+func checkCollisionBlock(block) -> bool:
 	if block == null:
-		return
+		return false
 		
 	var collision = false
 	var keep = []
@@ -60,19 +71,36 @@ func checkCollisionBlock(block):
 		for x in range(0,w):
 			var id = block.get_cell(x,y)
 			var id_below = block.get_cell(x,y+1)
+			var id_left = block.get_cell(x-1,y)
+			var id_right = block.get_cell(x+1,y)
 
-			if id != -1 and id_below == -1:
+			if id != -1 and (id_below == -1 or id_left == -1 or id_right == -1):
 				keep.append(Vector2(x,y))
 
 	for c in keep:
 		var x = pos.x + c.x
-		var y = pos.y + c.y + 1
+		var y = pos.y + c.y
 		var id = self.get_cell(x,y)
 		if id != -1:
 			collision = true
 			break
 
 	return collision
+
+func update_block(block, delta = Vector2()):
+	clearBlock(block)
+	move_block(block, delta)
+	if checkCollisionBlock(block):
+		move_block(block, -delta)
+	displayBlock(block)
+
+func move_block(block, delta = Vector2()):
+	if block == null or (delta.x == 0 and delta.y == 0):
+		return
+	
+	block.x += delta.x
+	block.y += delta.y
+
 
 func rotate_block(block, direction = "left"):
 	if block == null:
@@ -81,8 +109,12 @@ func rotate_block(block, direction = "left"):
 	clearBlock(block)
 	if direction == "left":
 		block.rotate_left()
+		if checkCollisionBlock(block):
+			block.rotate_right()
 	elif direction == "right":
 		block.rotate_right()
+		if checkCollisionBlock(block):
+			block.rotate_left()
 	displayBlock(block)
 
 func moveBlock(block):
