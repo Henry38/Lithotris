@@ -14,6 +14,12 @@ func _ready():
 	# Set Timer connexion
 	$timer.connect("timeout", self, "trigger")
 
+func _process(delta):
+	if Input.is_action_just_pressed("rotate_left"):
+		rotate_block(current_block, "left")
+	elif Input.is_action_just_pressed("rotate_right"):
+		rotate_block(current_block, "right")
+
 func trigger():
 	# Creer nouvelle piece ?
 	if create_new_block:
@@ -21,16 +27,16 @@ func trigger():
 		createNewBlock()
 
 	# Si la  piece doit s'arreter
-	elif checkCollisionBlock():
+	elif checkCollisionBlock(current_block):
 		create_new_block = true
 		current_block = null
 
 	# Sinon dscendre la piece	
 	else:
-		clearBlock()
-		moveBlock()
+		clearBlock(current_block)
+		moveBlock(current_block)
 
-	displayBlock()
+	displayBlock(current_block)
 
 func createNewBlock():
 	var new_block = FallingObject.new(1, pos)
@@ -40,20 +46,20 @@ func createNewBlock():
 	blocks.append(new_block)
 
 # Return true if the current block touch the ground else false
-func checkCollisionBlock():
-	if current_block == null:
+func checkCollisionBlock(block):
+	if block == null:
 		return
 		
 	var collision = false
 	var keep = []
-	var pos = current_block.cell_position()
-	var w = current_block.width
-	var h = current_block.height
+	var pos = block.cell_position()
+	var w = block.width
+	var h = block.height
 
 	for y in range(0,h):
 		for x in range(0,w):
-			var id = current_block.get_cell(x,y)
-			var id_below = current_block.get_cell(x,y+1)
+			var id = block.get_cell(x,y)
+			var id_below = block.get_cell(x,y+1)
 
 			if id != -1 and id_below == -1:
 				keep.append(Vector2(x,y))
@@ -68,40 +74,47 @@ func checkCollisionBlock():
 
 	return collision
 
-func moveBlock():
-	if current_block == null:
+func rotate_block(block, direction = "left"):
+	if block == null:
+		return
+	
+	clearBlock(block)
+	if direction == "left":
+		block.rotate_left()
+	elif direction == "right":
+		block.rotate_right()
+	displayBlock(block)
+
+func moveBlock(block):
+	if block == null:
 		return
 		
-	current_block.y += 1
+	block.y += 1
 
-func clearBlock():
-	if current_block == null:
+func clearBlock(block):
+	if block == null:
 		return
 
-	var pos = current_block.cell_position()
-	var w = current_block.width
-	var h = current_block.height
+	var pos = block.cell_position()
+	var w = block.width
+	var h = block.height
 
 	for y in range(0,h):
 		for x in range(0,w):
-			var id = current_block.get_cell(x,y)
+			var id = block.get_cell(x,y)
 			if id != -1:
 				self.set_cell(pos.x + x, pos.y + y, -1)
 
-func displayBlock():
-	if current_block == null:
+func displayBlock(block):
+	if block == null:
 		return
 
-	var pos = current_block.cell_position()
-	var w = current_block.width
-	var h = current_block.height
+	var pos = block.cell_position()
+	var w = block.width
+	var h = block.height
 
 	for y in range(0,h):
 		for x in range(0,w):
-			var id = current_block.get_cell(x,y)
+			var id = block.get_cell(x,y)
 			if id != -1:
 				self.set_cell(pos.x + x, pos.y + y, id)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
