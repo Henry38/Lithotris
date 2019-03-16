@@ -8,6 +8,7 @@ var global = preload("res://scripts/global.gd")
 
 # Main variables
 var current_block = null
+var next_block = null
 var resin_blocks = []
 var preload_lithopgraphy_power_up = false
 var display_lithopgraphy_power_up = false
@@ -119,6 +120,15 @@ func move_block_down(block):
 	displayBlock(current_block)
 
 func createNewBlock():
+	if next_block == null:
+		next_block = generate_block()
+	
+	current_block = next_block
+	next_block = generate_block()
+	emit_signal("generate_block")
+	emit_signal("prepare_block", next_block)
+
+func generate_block():
 	var rand_tilemap : TileMap = shapes[randi() % shapes.size()].instance()
 	var new_block = FallingObject.new(1 + (randi() % 2), rand_tilemap.get_used_cells())
 	if (randi() % 2) == 0:
@@ -127,9 +137,7 @@ func createNewBlock():
 		new_block.rotate_right()
 	new_block.x = int(width / 2) - int(new_block.width / 2)
 	new_block.y = 1
-	current_block = new_block
-	emit_signal("generate_block")
-	emit_signal("prepare_block", new_block)
+	return new_block
 
 # Return true if the current block touch the ground else false
 func checkCollisionBlock(block) -> bool:
