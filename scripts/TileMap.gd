@@ -8,6 +8,7 @@ var resin_blocks = []
 var preload_lithopgraphy_power_up = false
 var display_lithopgraphy_power_up = false
 var picking_resin_state_on = false
+var lithography_charge_count = 1
 export(int) var width = 10
 export(int) var height = 20
 
@@ -59,7 +60,7 @@ func _input(event):
 		print(pathFinder.pathfind(self, startPoint, endPoint))
 
 	if not $timer.paused and event.is_action_pressed("lithography_power_up"):
-		if not preload_lithopgraphy_power_up:
+		if not preload_lithopgraphy_power_up and lithography_charge_count > 0:
 			preload_lithopgraphy_power_up = true
 
 	if picking_resin_state_on:
@@ -91,6 +92,7 @@ func init_grid():
 func trigger():
 	if current_block == null and preload_lithopgraphy_power_up:
 		$timer.set_paused(true)
+		lithography_charge_count -= 1
 		preload_lithopgraphy_power_up = false
 		display_lithopgraphy_power_up = true
 		return
