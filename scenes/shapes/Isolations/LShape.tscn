@@ -2,9 +2,8 @@
 
 [ext_resource path="res://resources/tileSet.tres" type="TileSet" id=1]
 
-[node name="SquareShape" type="TileMap"]
+[node name="LShape" type="TileMap"]
 tile_set = ExtResource( 1 )
-cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 65537, 0, 0 )
+tile_data = PoolIntArray( 2, 8, 0, 65536, 11, 0, 65537, 10, 0, 65538, 9, 0 )
 

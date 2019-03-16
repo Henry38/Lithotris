@@ -1,6 +1,3 @@
-var _cellId
-var _cellPositions
-
 var x
 var y
 var width
@@ -8,18 +5,16 @@ var height
 
 var matrix
 
-func _init(cellId, cellPositions):
-	self._cellId = cellId
-	self._cellPositions = cellPositions
+func _init(positions: Array, values: Array):
 	self.x = 0
 	self.y = 0
 	
-	var min_x = cellPositions[0].x
-	var min_y = cellPositions[0].y
-	var max_x = cellPositions[0].x
-	var max_y = cellPositions[0].y
+	var min_x = positions[0].x
+	var min_y = positions[0].y
+	var max_x = positions[0].x
+	var max_y = positions[0].y
 	
-	for p in cellPositions:
+	for p in positions:
 		if p.x < min_x:
 			min_x = p.x
 		if p.x > max_x:
@@ -39,14 +34,11 @@ func _init(cellId, cellPositions):
 		for y in range(0,self.height):
 			self.matrix[x].append(-1)
 			
-	for p in cellPositions:
-		var x = p.x
-		var y = p.y
-		self.matrix[x][y] = cellId
+	for i in range(positions.size()):
+		var pos = positions[i]
+		self.matrix[pos.x][pos.y] = values[i]
 				
-func cell_id():
-	return _cellId
-	
+
 func get_cell(x, y):
 	if x < 0 or x >= self.width or y < 0 or y >= self.height:
 		return -1

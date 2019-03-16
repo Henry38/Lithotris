@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://resources/tileSet.tres" type="TileSet" id=1]
+
+[node name="LShape" type="TileMap"]
+tile_set = ExtResource( 1 )
+cell_quadrant_size = 64
+format = 1
+tile_data = PoolIntArray( 0, 1073741859, 0, 65536, 1073741872, 0, 65537, 1073741869, 0, 65538, 1073741871, 0 )
+

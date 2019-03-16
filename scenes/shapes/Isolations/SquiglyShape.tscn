@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://resources/tileSet.tres" type="TileSet" id=1]
+
+[node name="SquiglyShape" type="TileMap"]
+tile_set = ExtResource( 1 )
+cell_quadrant_size = 64
+format = 1
+tile_data = PoolIntArray( 0, 1610612755, 0, 1, 1073741846, 0, 65537, 23, 0, 65538, 19, 0 )
+

@@ -5,12 +5,20 @@ var FallingObject = preload("res://scripts/FallingObject.gd")
 # Main variables
 var current_block = null
 
-var shapes = [
-	preload("res://scenes/shapes/SquareShape.tscn"),
-	preload("res://scenes/shapes/BarShape.tscn"),
-	preload("res://scenes/shapes/LShape.tscn"),
-	preload("res://scenes/shapes/SquiglyShape.tscn"),
-	preload("res://scenes/shapes/TShape.tscn")
+var IsolationShapes = [
+	preload("res://scenes/shapes/Isolations/SquareShape.tscn"),
+	preload("res://scenes/shapes/Isolations/BarShape.tscn"),
+	preload("res://scenes/shapes/Isolations/LShape.tscn"),
+	preload("res://scenes/shapes/Isolations/SquiglyShape.tscn"),
+	preload("res://scenes/shapes/Isolations/TShape.tscn")
+]
+
+var ConductorShapes = [
+	preload("res://scenes/shapes/Conductor/SquareShape.tscn"),
+	preload("res://scenes/shapes/Conductor/BarShape.tscn"),
+	preload("res://scenes/shapes/Conductor/LShape.tscn"),
+	preload("res://scenes/shapes/Conductor/SquiglyShape.tscn"),
+	preload("res://scenes/shapes/Conductor/TShape.tscn")
 ]
 
 # Called when the node enters the scene tree for the first time.
@@ -50,8 +58,12 @@ func move_block_down(block):
 	displayBlock(current_block)
 
 func createNewBlock():
-	var rand_tilemap : TileMap = shapes[randi() % shapes.size()].instance()
-	var new_block = FallingObject.new(1, rand_tilemap.get_used_cells())
+	var rand_tilemap : TileMap = IsolationShapes[randi() % IsolationShapes.size()].instance()
+	var cells = rand_tilemap.get_used_cells()
+	var cells_values = []
+	for v in cells:
+		cells_values.append(rand_tilemap.get_cellv(v))
+	var new_block = FallingObject.new(cells, cells_values)
 	new_block.x = 10
 	new_block.y = 10
 	current_block = new_block

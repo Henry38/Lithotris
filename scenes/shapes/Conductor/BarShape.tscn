@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://resources/tileSet.tres" type="TileSet" id=1]
+
+[node name="BarShape" type="TileMap"]
+tile_set = ExtResource( 1 )
+cell_quadrant_size = 64
+format = 1
+tile_data = PoolIntArray( 0, 1073741865, 0, 1, 1073741862, 0, 2, 1073741869, 0, 3, 1610612780, 0 )
+
