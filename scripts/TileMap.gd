@@ -8,14 +8,18 @@ var resin_blocks = []
 var preload_lithopgraphy_power_up = false
 var display_lithopgraphy_power_up = false
 var picking_resin_state_on = false
+export(int) var width = 10
+export(int) var height = 20
 
 var map_width : int = 30	# TODO: remove this shit
 var map_height : int = 38
 
 var pathFinder = preload("res://scripts/PathFinder.gd").new()
-const startPoint = Vector2(0, 10)
+const startPoint = Vector2(31, 10)
 const endPoint = Vector2(0, 17)
 
+const WALL_TILE = 5
+const BACKGROUND_TILE = 0
 
 const shapes = [
 	preload("res://scenes/shapes/SquareShape.tscn"),
@@ -26,9 +30,9 @@ const shapes = [
 ]
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	# Set Timer connexion
+func _ready():	
 	randomize()
+	init_grid()
 	self.set_cellv(startPoint, 3)
 	self.set_cellv(endPoint, 4)
 	$timer.connect("timeout", self, "trigger")
@@ -77,6 +81,15 @@ func _input(event):
 					if id == 6:
 						self.set_cell(cx,cy,7)
 
+func init_grid():
+	for y in range(height):
+		for x in range(width):
+			if y == 0 or x == 0 or x == width or y == height:
+				self.set_cell(x, y, WALL_TILE)
+			else:
+				self.set_cell(x, y, BACKGROUND_TILE)
+		
+
 func trigger():
 	if current_block == null and preload_lithopgraphy_power_up:
 		$timer.set_paused(true)
@@ -107,8 +120,8 @@ func move_block_down(block):
 func createNewBlock():
 	var rand_tilemap : TileMap = shapes[randi() % shapes.size()].instance()
 	var new_block = FallingObject.new(1 + (randi() % 2), rand_tilemap.get_used_cells())
-	new_block.x = 10
-	new_block.y = 5
+	new_block.x = 1
+	new_block.y = 1
 	current_block = new_block
 
 # Return true if the current block touch the ground else false
