@@ -81,11 +81,6 @@ func rotate_right():
 	self.height = h
 	self.matrix = transpose
 
-	print("final")
-	for x in range(0,w):
-		for y in range(0,h):
-			print(self.matrix[x][y])
-
 func rotate_left():
 	var transpose = []
 	var copy_transpose = []
@@ -111,7 +106,3 @@ func rotate_left():
 	self.height = h
 	self.matrix = transpose
 
-	print("final")
-	for x in range(0,w):
-		for y in range(0,h):
-			print(self.matrix[x][y])
