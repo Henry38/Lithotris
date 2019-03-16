@@ -1,13 +1,14 @@
 extends CanvasLayer
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+export (int) var block_penality = 10
+
+onready var tilemap = $Grid/TileMap
+onready var progress = $VBoxContainer/Progress
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+	tilemap.connect("generate_block", progress, "progress", [block_penality])
+	progress.connect("max_reached", self, "_max_ecological_impact")
+	
+func _max_ecological_impact():
+	print("Ecological impact to high")

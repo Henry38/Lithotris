@@ -18,6 +18,7 @@ font_data = ExtResource( 6 )
 
 [node name="Root" type="CanvasLayer"]
 script = ExtResource( 1 )
+block_penality = 50
 
 [node name="background" type="Sprite" parent="."]
 scale = Vector2( 0.533333, 0.555556 )
