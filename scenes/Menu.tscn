@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/menu.gd" type="Script" id=1]
-[ext_resource path="res://images/fondPlan de travail 1 copie 14-100(2).jpg" type="Texture" id=2]
+[ext_resource path="res://images/backmainmenu.jpg" type="Texture" id=2]
 [ext_resource path="res://resources/Roboto-Bold.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://resources/Roboto-Regular.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://scenes/HUBButtons.tscn" type="PackedScene" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 30
@@ -87,4 +88,6 @@ custom_colors/font_color = Color( 0.372549, 0.368627, 0.368627, 1 )
 enabled_focus_mode = 0
 text = "Quitter"
 flat = true
+
+[node name="HUBButtons" parent="." instance=ExtResource( 5 )]
 

@@ -1,19 +1,19 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/credits.gd" type="Script" id=1]
-[ext_resource path="res://images/fondPlan de travail 1 copie 13-100(2).jpg" type="Texture" id=2]
+[ext_resource path="res://images/creditsback.jpg" type="Texture" id=2]
 [ext_resource path="res://images/logos.png" type="Texture" id=3]
 [ext_resource path="res://images/retour.png" type="Texture" id=4]
 [ext_resource path="res://resources/Roboto-Regular.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://resources/computer.wav" type="AudioStream" id=6]
+[ext_resource path="res://scenes/HUBButtons.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFont" id=1]
-size = 30
+size = 25
 font_data = ExtResource( 5 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "anim"
-length = 2.0
+length = 5.0
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:percent_visible")
 tracks/0/interp = 1
@@ -21,10 +21,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 2, 3.4, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, 1.0 ]
+"values": [ 0.0, 0.39, 0.631, 1.0 ]
 }
 
 [sub_resource type="GDScript" id=3]
@@ -80,17 +80,23 @@ margin_right = 364.5
 margin_bottom = 169.5
 custom_fonts/normal_font = SubResource( 1 )
 custom_colors/default_color = Color( 0.372549, 0.368627, 0.368627, 1 )
-text = "Développeurs : Boutin Azarias, Pupier-Valade Florentin, Lefevre Henri
-Graphiste : Bocquier Ludivine
-Doctorante : Abadie Claire
+text = "Jeu réalisé lors de la cinquième Scientific Game Jam de Grenoble, organisée du 15 au 17 Mars 2019 par la Communauté Université Grenoble Alpes, en partenariat avec La Casemate (CCSTI) et avec le soutien financier de l’Idex Université Grenoble Alpes. Cette année, l'événement est également labellisé \"80 ans du CNRS\"
 
-Designer sonore : Grasland Hadrien"
-scroll_following = true
+Nom de l'équipe : \"Tétra\"
+Nom du Jeu : \"Lythotris\"
+Membres :
+
+Développeurs : BOUTIN Azarias, PUPIER-VALADE Florentin, LEFEVRE Henri
+Graphiste : BOCQUIER Ludivine
+Doctorante : ABADIE Claire
+Sound Designer : GRASLAND Hadrien
+Game Designer : LANDRI Camille, BUFFETEAU David"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="RichTextLabel"]
 anims/anim = SubResource( 2 )
 script = SubResource( 3 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="RichTextLabel"]
-stream = ExtResource( 6 )
+
+[node name="HUBButtons" parent="." instance=ExtResource( 6 )]
 

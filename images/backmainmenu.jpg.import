@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/fondPlan de travail 1 copie 13-100(2).jpg-fcf0e56a0c51a8d450e12972b8f93fd9.stex"
+path="res://.import/backmainmenu.jpg-e09e4f9b270245541e18618a45a424a9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/fondPlan de travail 1 copie 13-100(2).jpg"
-dest_files=[ "res://.import/fondPlan de travail 1 copie 13-100(2).jpg-fcf0e56a0c51a8d450e12972b8f93fd9.stex" ]
+source_file="res://images/backmainmenu.jpg"
+dest_files=[ "res://.import/backmainmenu.jpg-e09e4f9b270245541e18618a45a424a9.stex" ]
 
 [params]
 

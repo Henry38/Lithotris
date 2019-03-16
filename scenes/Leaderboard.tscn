@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/Leaderboard.gd" type="Script" id=1]
-[ext_resource path="res://images/fondPlan de travail 1 copie 8-100(2).jpg" type="Texture" id=2]
+[ext_resource path="res://images/classementback.jpg" type="Texture" id=2]
 [ext_resource path="res://images/retour.png" type="Texture" id=3]
+[ext_resource path="res://scenes/HUBButtons.tscn" type="PackedScene" id=4]
 
 [node name="Root" type="Control"]
 anchor_right = 1.0
@@ -25,4 +26,6 @@ focus_mode = 0
 enabled_focus_mode = 0
 icon = ExtResource( 3 )
 flat = true
+
+[node name="HUBButtons" parent="." instance=ExtResource( 4 )]
 

@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/computer.wav-8442af6ce3ac7084bca61a4fafacbc69.sample"
+path="res://.import/computer.wav-9020f4932a1533f4dccd88fcaa455ff7.sample"
 
 [deps]
 
-source_file="res://resources/computer.wav"
-dest_files=[ "res://.import/computer.wav-8442af6ce3ac7084bca61a4fafacbc69.sample" ]
+source_file="res://music/computer.wav"
+dest_files=[ "res://.import/computer.wav-9020f4932a1533f4dccd88fcaa455ff7.sample" ]
 
 [params]
 
