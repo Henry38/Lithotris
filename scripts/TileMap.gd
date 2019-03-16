@@ -19,6 +19,11 @@ func _process(delta):
 		rotate_block(current_block, "left")
 	elif Input.is_action_just_pressed("rotate_right"):
 		rotate_block(current_block, "right")
+	
+	if Input.is_action_just_pressed("move_left"):
+		move_block(current_block, -1)
+	elif Input.is_action_just_pressed("move_right"):
+		move_block(current_block, 1)
 
 func trigger():
 	# Creer nouvelle piece ?
@@ -73,6 +78,14 @@ func checkCollisionBlock(block):
 			break
 
 	return collision
+
+func move_block(block, xDelta = 0):
+	if block == null or xDelta == 0:
+		return
+	
+	clearBlock(block)
+	block.x += xDelta
+	displayBlock(block)
 
 func rotate_block(block, direction = "left"):
 	if block == null:
