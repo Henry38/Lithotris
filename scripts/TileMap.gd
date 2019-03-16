@@ -118,6 +118,10 @@ func move_block_down(block):
 func createNewBlock():
 	var rand_tilemap : TileMap = shapes[randi() % shapes.size()].instance()
 	var new_block = FallingObject.new(1 + (randi() % 2), rand_tilemap.get_used_cells())
+	if (randi() % 2) == 0:
+		new_block.rotate_left()
+	else:
+		new_block.rotate_right()
 	new_block.x = int(width / 2) - int(new_block.width / 2)
 	new_block.y = 1
 	current_block = new_block
