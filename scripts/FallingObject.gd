@@ -37,7 +37,7 @@ func _init(cellId, cellPositions):
 	for x in range(0,self.width):
 		self.matrix.append([])
 		for y in range(0,self.height):
-			self.matrix[x].append(-1)
+			self.matrix[x].append(0)
 			
 	for p in cellPositions:
 		var x = p.x

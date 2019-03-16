@@ -62,7 +62,7 @@ func _input(event):
 			for r in resin_blocks:
 				if r == Vector2(cx,cy):
 					var id = self.get_cell(cx,cy)
-					if id == -1:
+					if id <= 0:
 						self.set_cell(cx,cy,2)
 					if id == 2:
 						self.set_cell(cx,cy,-1)
@@ -116,14 +116,14 @@ func checkCollisionBlock(block) -> bool:
 			var id_left = block.get_cell(x-1,y)
 			var id_right = block.get_cell(x+1,y)
 
-			if id != -1 and (id_below == -1 or id_left == -1 or id_right == -1):
+			if id > 0 and (id_below <= 0 or id_left <= 0 or id_right <= 0):
 				keep.append(Vector2(x,y))
 
 	for c in keep:
 		var x = pos.x + c.x
 		var y = pos.y + c.y
 		var id = self.get_cell(x,y)
-		if id != -1:
+		if id > 0:
 			collision = true
 			break
 
@@ -176,7 +176,7 @@ func clearBlock(block):
 	for y in range(0,h):
 		for x in range(0,w):
 			var id = block.get_cell(x,y)
-			if id != -1:
+			if id > 0:
 				self.set_cell(pos.x + x, pos.y + y, -1)
 
 func displayBlock(block):
@@ -190,7 +190,7 @@ func displayBlock(block):
 	for y in range(0,h):
 		for x in range(0,w):
 			var id = block.get_cell(x,y)
-			if id != -1:
+			if id > 0:
 				self.set_cell(pos.x + x, pos.y + y, id)
 
 func displayResin():
@@ -198,7 +198,7 @@ func displayResin():
 	for x in range(1,map_width):
 		for y in range(1,map_height):
 			var id = self.get_cell(x,y)
-			if id != -1:
+			if id > 0:
 				resin_blocks.append(Vector2(x,y-1))
 				self.set_cell(x,y-1,2)
 				break
@@ -206,7 +206,7 @@ func displayResin():
 func removeResin():
 	for p in resin_blocks:
 		var id = self.get_cell(p.x,p.y)
-		if id == -1:
+		if id <= 0:
 			var id_below = self.get_cell(p.x,p.y+1)
 			if id_below == 1:
 				self.set_cell(p.x,p.y+1,-1)
