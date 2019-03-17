@@ -11,8 +11,4 @@ func _ready():
 	$BackButton.connect("pressed", self, "backb")
 	
 func backb():
-	get_tree().change_scene("res://scenes/Menu.tscn")
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+	Transition.fade_to("res://scenes/Menu.tscn")
