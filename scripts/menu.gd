@@ -8,15 +8,9 @@ var current_screen = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$LeaveButton.connect("pressed", get_tree(), "quit")
-	$LeadButton.connect("pressed", self, "changescenelead")
-	$CreditsButton.connect("pressed", self, "changescenecredits")
-	
-func changescenelead():
-	Transition.fade_to("res://scenes/Leaderboard.tscn")
-	
-func changescenecredits():
-	Transition.fade_to("res://scenes/credits.tscn")
+	$LeadButton.connect("pressed", self, "goto_scene", ["res://scenes/Leaderboard.tscn"])
+	$CreditsButton.connect("pressed", self, "goto_scene", ["res://scenes/credits.tscn"])
+	$PlayButton.connect("pressed", self, "goto_scene", ["res://scenes/Gameplay.tscn"])
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func goto_scene(scene: String):
+	Transition.fade_to(scene)
