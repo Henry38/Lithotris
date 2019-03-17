@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://resources/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://scripts/TileMap.gd" type="Script" id=2]
+[ext_resource path="res://images/victory.png" type="Texture" id=3]
 
 [node name="Root" type="Node2D"]
 
@@ -16,4 +17,9 @@ height = 18
 
 [node name="timer" type="Timer" parent="TileMap"]
 autostart = true
+
+[node name="victory_sprite" type="Sprite" parent="TileMap"]
+visible = false
+position = Vector2( 460, 585 )
+texture = ExtResource( 3 )
 

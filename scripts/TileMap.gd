@@ -11,6 +11,10 @@ var current_block = null
 var next_block = null
 var resin_blocks = []
 
+var fade_t = 0
+var target_alpha = 2.0
+var wait_time = 0
+
 var litho_provider : Node = null
 export(int) var width = 10
 export(int) var height = 20
@@ -45,7 +49,45 @@ func _ready():
 #warning-ignore:return_value_discarded
 	$timer.connect("timeout", self, "trigger")
 
+func _process(delta):
+	if stateMachine.is_show_victory():
+		if wait_time > 0:
+			wait_time -= 1
+			return
+			
+		if fade_t < 0:
+			var d = -fade_t
+			var alpha = $victory_sprite.get_modulate().a
+			alpha = (alpha * (d-1) + target_alpha) / d
+			$victory_sprite.set_modulate(Color(1,1,1,alpha))
+			fade_t += 1
+			if fade_t == 0:
+				nextLevel()
+			
+		if fade_t > 0:
+			var d = fade_t
+			var alpha = $victory_sprite.get_modulate().a
+			alpha = (alpha * (d-1) + target_alpha) / d
+			$victory_sprite.set_modulate(Color(1,1,1,alpha))
+			fade_t -= 1
+			if fade_t == 0:
+				target_alpha = 0
+				fade_t = -100
+				wait_time = 100
+			
+		return
+		
+func show_victory():
+	stateMachine.show_victory()
+	fade_t = 100
+	$victory_sprite.set_modulate(Color(1,1,1,0))
+	target_alpha = 1.0
+	$victory_sprite.set_visible(true)
+			
 func _input(event):
+	if stateMachine.is_show_victory():
+		return
+		
 	if not $timer.paused and event.is_action_pressed("lithography_power_up"):
 		if stateMachine.is_normal() and litho_provider.has_litho():
 			stateMachine.require_litho()
@@ -107,6 +149,7 @@ func nextLevel():
 	level += 1
 	init_grid()
 	init_variable_state()
+	stateMachine.reset()
 
 
 func next_process_step():
@@ -121,7 +164,7 @@ func next_process_step():
 	return true
 
 func trigger():
-	if next_process_step():
+	if next_process_step() and not stateMachine.is_show_victory():
 		move_block_down(current_block)
 
 func move_block_down(block):
@@ -135,7 +178,7 @@ func move_block_down(block):
 		displayBlock(block)
 		lighteningTile.lightenBlock(self, block)
 		if pathFinder.pathfind(self, startPoint, endPointList[level]):
-			nextLevel()
+			show_victory()
 			return
 		if not stateMachine.is_needing_litho():
 			createNewBlock()
