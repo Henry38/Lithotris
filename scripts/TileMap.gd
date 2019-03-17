@@ -11,7 +11,7 @@ var current_block = null
 var next_block = null
 var resin_blocks = []
 
-var lithography_charge_count = 5
+var litho_provider : Node = null
 export(int) var width = 10
 export(int) var height = 20
 export(int) var level = 0
@@ -61,7 +61,7 @@ func _process(delta):
 
 func _input(event):	
 	if not $timer.paused and event.is_action_pressed("lithography_power_up"):
-		if stateMachine.is_normal() and lithography_charge_count > 0:
+		if stateMachine.is_normal() and litho_provider.has_litho():
 			stateMachine.require_litho()
 
 	if stateMachine.is_showing_litho():
@@ -97,7 +97,7 @@ func init_variable_state():
 	next_block = null
 	resin_blocks.clear()
 	stateMachine.reset()
-	lithography_charge_count = (level+1)
+	litho_provider.reset()
 	
 func nextLevel():
 	if level == endPointList.size() - 1:
@@ -112,7 +112,7 @@ func nextLevel():
 func next_process_step():
 	if current_block == null and stateMachine.is_needing_litho():
 		$timer.set_paused(true)
-		lithography_charge_count -= 1
+		litho_provider.use_litho()
 		displayResin()
 		stateMachine.show_litho()
 		return false

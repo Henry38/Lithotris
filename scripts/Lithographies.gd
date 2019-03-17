@@ -24,7 +24,9 @@ func _ready():
 		var s = Sprite.new()
 		s.position.x = (i* (litho_symbol.get_size().x + 5))
 		s.texture = litho_symbol
-		print("add sprite")
 		container.add_child(s)
 
+
+func reset():
+	pass
 
