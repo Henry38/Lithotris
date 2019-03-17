@@ -48,6 +48,7 @@ func _ready():
 	init_grid()
 #warning-ignore:return_value_discarded
 	$timer.connect("timeout", self, "trigger")
+	$theme.play()
 
 func _process(delta):
 	if stateMachine.is_show_game_over():
@@ -62,6 +63,7 @@ func _process(delta):
 			$game_over_sprite.set_modulate(Color(1,1,1,alpha))
 			fade_t += 1
 			if fade_t == 0:
+				$game_over.stop()
 				print("finished")
 			
 		if fade_t > 0:
@@ -87,6 +89,7 @@ func _process(delta):
 			$victory_sprite.set_modulate(Color(1,1,1,alpha))
 			fade_t += 1
 			if fade_t == 0:
+				$victory.stop()
 				nextLevel()
 			
 		if fade_t > 0:
@@ -101,6 +104,8 @@ func _process(delta):
 				wait_time = 100
 		
 func show_victory():
+	$theme.stop()
+	$victory.play()
 	stateMachine.show_victory()
 	fade_t = 100
 	$victory_sprite.set_modulate(Color(1,1,1,0))
@@ -108,6 +113,8 @@ func show_victory():
 	$victory_sprite.set_visible(true)
 	
 func show_game_over():
+	$theme.stop()
+	$game_over.play()
 	stateMachine.show_game_over()
 	fade_t = 100
 	$game_over_sprite.set_modulate(Color(1,1,1,0))
@@ -181,6 +188,7 @@ func nextLevel():
 	init_grid()
 	init_variable_state()
 	stateMachine.reset()
+	$theme.play()
 
 
 func next_process_step():
@@ -207,6 +215,10 @@ func move_block_down(block):
 	if checkCollisionBlock(block):
 		move_block(block, Vector2(0, -1))
 		displayBlock(block)
+		if block.cell_id() == global.CONDUCTOR_TILE:
+			$metal.play()
+		elif block.cell_id() == global.ISOLATOR_TILE:
+			$isolant.play()
 		lighteningTile.lightenBlock(self, block)
 		if pathFinder.pathfind(self, startPoint, endPointList[level]):
 			show_victory()
