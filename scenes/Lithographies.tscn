@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scripts/Lithographies.gd" type="Script" id=1]
+[ext_resource path="res://images/icons/litho-01.png" type="Texture" id=2]
+[ext_resource path="res://resources/fonts/PermanentMarker-Regular.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 20
+font_data = ExtResource( 3 )
+
+[node name="Lithography" type="Node2D"]
+script = ExtResource( 1 )
+litho_symbol = ExtResource( 2 )
+
+[node name="LitographyLabel" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Lithographies"
+
+[node name="SpriteContainer" type="Node2D" parent="."]
+position = Vector2( 0, 70 )
+
