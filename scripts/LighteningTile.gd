@@ -1,6 +1,6 @@
 
 func lightenBlock(tilemap, block):
-	
+
 	var tiles = []
 	
 	for x in range(0,block.width):
@@ -22,15 +22,15 @@ func lightenBlock(tilemap, block):
 		
 		for dir in directions:
 			var id = tilemap.get_cellv(dir)
-			if id == tilemap.g.LIGHTENED_CONDUCTOR_TILE or id == tilemap.g.STARTING_TILE:
+			if id == global.LIGHTENED_CONDUCTOR_TILE or id == global.STARTING_TILE:
 				find_lightened_conductor = true
-	
+
 	if find_lightened_conductor:
 		# 2. allumer tous les block connectes
 		while tiles.size() > 0:
 			var pos = tiles.pop_back()
 			
-			tilemap.set_cellv(pos, tilemap.g.LIGHTENED_CONDUCTOR_TILE)
+			tilemap.set_cellv(pos, global.LIGHTENED_CONDUCTOR_TILE)
 			
 			var directions = [
 				Vector2(pos.x - 1, pos.y),
@@ -42,6 +42,6 @@ func lightenBlock(tilemap, block):
 			# ajouter les voisins non allumes conducteurs
 			for dir in directions:
 				var id = tilemap.get_cellv(dir)
-				if id == tilemap.g.CONDUCTOR_TILE:
+				if id == global.CONDUCTOR_TILE:
 					if not tiles.has(dir):
 						tiles.append(dir)

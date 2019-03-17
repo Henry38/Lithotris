@@ -141,7 +141,7 @@ func move_block_down(block):
 			createNewBlock()
 		else:
 			current_block = null
-	displayBlock(block)
+	displayBlock(current_block)
 
 func createNewBlock():
 	if next_block == null:
