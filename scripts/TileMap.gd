@@ -16,11 +16,12 @@ var picking_resin_state_on = false
 var lithography_charge_count = 1
 export(int) var width = 10
 export(int) var height = 20
+export(int) var level = 0
 
 var pathFinder = preload("res://scripts/PathFinder.gd").new()
 var lighteningTile = preload("res://scripts/LighteningTile.gd").new()
 onready var startPoint = Vector2(0, height - 1)
-onready var endPoint = Vector2(10, width)
+onready var endPointList = [Vector2(width, height-2), Vector2(width, height-4), Vector2(width, height-6), Vector2(width, height-8), Vector2(width, height-12), Vector2(width, height-16)]
 
 const shapes = [
 	preload("res://scenes/shapes/SquareShape.tscn"),
@@ -34,8 +35,6 @@ const shapes = [
 func _ready():
 	randomize()
 	init_grid()
-	self.set_cellv(startPoint, 3)
-	self.set_cellv(endPoint, 4)
 	$timer.connect("timeout", self, "trigger")
 
 func _process(delta):
@@ -60,7 +59,7 @@ func _process(delta):
 
 func _input(event):	
 	if event.is_action_pressed("debug"):
-		print(pathFinder.pathfind(self, startPoint, endPoint))
+		print(pathFinder.pathfind(self, startPoint, endPointList[level]))
 
 	if not $timer.paused and event.is_action_pressed("lithography_power_up"):
 		if not preload_lithopgraphy_power_up and lithography_charge_count > 0:
@@ -90,7 +89,22 @@ func init_grid():
 				self.set_cell(x, y, g.WALL_TILE)
 			else:
 				self.set_cell(x, y, g.BACKGROUND_TILE)
-		
+
+	self.set_cellv(startPoint, g.STARTING_TILE)
+	self.set_cellv(endPointList[level], g.ENDING_TILE)
+
+func init_variable_state():
+	current_block = null
+	next_block = null
+	resin_blocks.clear()
+	preload_lithopgraphy_power_up = false
+	display_lithopgraphy_power_up = false
+	picking_resin_state_on = false
+	
+func nextLevel():
+	init_grid()
+	init_variable_state()
+	level += 1
 
 func trigger():
 	if current_block == null and preload_lithopgraphy_power_up:
@@ -112,8 +126,8 @@ func move_block_down(block):
 		move_block(current_block, Vector2(0, -1))
 		displayBlock(current_block)
 		lighteningTile.lightenBlock(self, current_block)
-		if pathFinder.pathfind(self, startPoint, endPoint):
-			print("Finished")
+		if pathFinder.pathfind(self, startPoint, endPointList[level]):
+			nextLevel()
 			return
 		if not preload_lithopgraphy_power_up:
 			createNewBlock()
@@ -254,3 +268,4 @@ func removeResin():
 			if id_below == g.ISOLATOR_TILE:
 				self.set_cell(p.x,p.y+1,g.BACKGROUND_TILE)
 		self.set_cell(p.x,p.y,g.BACKGROUND_TILE)
+	resin_blocks.clear()
