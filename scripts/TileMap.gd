@@ -2,6 +2,7 @@ extends TileMap
 
 signal generate_block
 signal prepare_block
+signal next_level
 
 var FallingObject = preload("res://scripts/FallingObject.gd")
 onready var g = $"/root/global"
@@ -195,6 +196,7 @@ func nextLevel():
 	init_grid()
 	init_variable_state()
 	stateMachine.reset()
+	emit_signal("next_level")
 
 
 func next_process_step():

@@ -11,6 +11,7 @@ onready var g = $"/root/global"
 func _ready():
 	tilemap.connect("generate_block", progress, "progress", [block_penality])
 	tilemap.connect("prepare_block", self, "_show_next_block")
+	tilemap.connect("next_level", $ScoreLabel, "add_score", [100])
 	progress.connect("max_reached", self, "_max_ecological_impact")
 	$Grid/TileMap.litho_provider = $Lithographies
 	
