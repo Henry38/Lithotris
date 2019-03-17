@@ -1,9 +1,18 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://resources/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://scripts/TileMap.gd" type="Script" id=2]
 [ext_resource path="res://images/victory.png" type="Texture" id=3]
 [ext_resource path="res://images/gameover.png" type="Texture" id=4]
+[ext_resource path="res://music/Lithotris_Reaper.ogg" type="AudioStream" id=5]
+[ext_resource path="res://music/Woosh1.wav" type="AudioStream" id=6]
+[ext_resource path="res://music/Metal.wav" type="AudioStream" id=7]
+[ext_resource path="res://music/Resine.wav" type="AudioStream" id=8]
+[ext_resource path="res://music/Isolant.wav" type="AudioStream" id=9]
+[ext_resource path="res://music/Courant.wav" type="AudioStream" id=10]
+[ext_resource path="res://music/Gravure.wav" type="AudioStream" id=11]
+[ext_resource path="res://music/Game_Over.ogg" type="AudioStream" id=12]
+[ext_resource path="res://music/Victoire.ogg" type="AudioStream" id=13]
 
 [node name="Root" type="Node2D"]
 
@@ -28,4 +37,31 @@ texture = ExtResource( 3 )
 visible = false
 position = Vector2( 459.541, 585.507 )
 texture = ExtResource( 4 )
+
+[node name="theme" type="AudioStreamPlayer2D" parent="TileMap"]
+stream = ExtResource( 5 )
+
+[node name="woosh" type="AudioStreamPlayer2D" parent="TileMap"]
+stream = ExtResource( 6 )
+
+[node name="metal" type="AudioStreamPlayer2D" parent="TileMap"]
+stream = ExtResource( 7 )
+
+[node name="resin" type="AudioStreamPlayer2D" parent="TileMap"]
+stream = ExtResource( 8 )
+
+[node name="isolant" type="AudioStreamPlayer2D" parent="TileMap"]
+stream = ExtResource( 9 )
+
+[node name="courant" type="AudioStreamPlayer2D" parent="TileMap"]
+stream = ExtResource( 10 )
+
+[node name="gravure" type="AudioStreamPlayer2D" parent="TileMap"]
+stream = ExtResource( 11 )
+
+[node name="game_over" type="AudioStreamPlayer2D" parent="TileMap"]
+stream = ExtResource( 12 )
+
+[node name="victory" type="AudioStreamPlayer2D" parent="TileMap"]
+stream = ExtResource( 13 )
 

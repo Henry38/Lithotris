@@ -50,6 +50,7 @@ func _ready():
 	listenfor_popups()
 #warning-ignore:return_value_discarded
 	$timer.connect("timeout", self, "trigger")
+	$theme.play()
 
 func listenfor_popups():
 	Popups.get_node("PauseDialog").connect("about_to_show", self, "dialog", ["PauseDialog"])
@@ -77,6 +78,7 @@ func _process(delta):
 			$game_over_sprite.set_modulate(Color(1,1,1,alpha))
 			fade_t += 1
 			if fade_t == 0:
+				$game_over.stop()
 				print("finished")
 			
 		if fade_t > 0:
@@ -102,6 +104,7 @@ func _process(delta):
 			$victory_sprite.set_modulate(Color(1,1,1,alpha))
 			fade_t += 1
 			if fade_t == 0:
+				$victory.stop()
 				nextLevel()
 			
 		if fade_t > 0:
@@ -116,6 +119,8 @@ func _process(delta):
 				wait_time = 100
 		
 func show_victory():
+	$theme.stop()
+	$victory.play()
 	stateMachine.show_victory()
 	fade_t = 100
 	$victory_sprite.set_modulate(Color(1,1,1,0))
@@ -123,6 +128,8 @@ func show_victory():
 	$victory_sprite.set_visible(true)
 	
 func show_game_over():
+	$theme.stop()
+	$game_over.play()
 	stateMachine.show_game_over()
 	fade_t = 100
 	$game_over_sprite.set_modulate(Color(1,1,1,0))
@@ -196,6 +203,7 @@ func nextLevel():
 	init_grid()
 	init_variable_state()
 	stateMachine.reset()
+	$theme.play()
 	emit_signal("next_level")
 
 
@@ -223,6 +231,10 @@ func move_block_down(block):
 	if checkCollisionBlock(block):
 		move_block(block, Vector2(0, -1))
 		displayBlock(block)
+		if block.cell_id() == global.CONDUCTOR_TILE:
+			$metal.play()
+		elif block.cell_id() == global.ISOLATOR_TILE:
+			$isolant.play()
 		lighteningTile.lightenBlock(self, block)
 		if pathFinder.pathfind(self, startPoint, endPointList[level]):
 			show_victory()
@@ -358,6 +370,7 @@ func displayBlock(block):
 				self.set_cell(pos.x + x, pos.y + y, id)
 
 func displayResin():
+	$resin.play()
 	resin_blocks.clear()
 	for x in range(1,width):
 		for y in range(1,height):
@@ -375,4 +388,5 @@ func removeResin():
 			if id_below == g.ISOLATOR_TILE:
 				self.set_cell(p.x,p.y+1,g.BACKGROUND_TILE)
 		self.set_cell(p.x,p.y,g.BACKGROUND_TILE)
+	$gravure.play()
 	resin_blocks.clear()
