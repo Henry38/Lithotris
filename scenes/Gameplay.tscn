@@ -32,7 +32,8 @@ centered = false
 position = Vector2( 300, 0 )
 
 [node name="HUBButtons" parent="." instance=ExtResource( 4 )]
-show_pause_button = false
+margin_left = -132.0
+margin_right = 0.0
 
 [node name="IncomingblocLabel" type="Label" parent="."]
 margin_left = 680.0
