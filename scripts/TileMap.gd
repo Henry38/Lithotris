@@ -10,14 +10,13 @@ onready var g = $"/root/global"
 var current_block = null
 var next_block = null
 var resin_blocks = []
-var preload_lithopgraphy_power_up = false
-var display_lithopgraphy_power_up = false
-var picking_resin_state_on = false
-var lithography_charge_count = 1
+
+var lithography_charge_count = 5
 export(int) var width = 10
 export(int) var height = 20
 export(int) var level = 0
 
+var stateMachine = preload("res://scripts/StateMachine.gd").new()
 var pathFinder = preload("res://scripts/PathFinder.gd").new()
 var lighteningTile = preload("res://scripts/LighteningTile.gd").new()
 onready var startPoint = Vector2(0, height - 1)
@@ -59,23 +58,15 @@ func _process(delta):
 			
 		if Input.is_action_just_pressed("move_down"):
 			move_block_down(current_block)
-	
-	if display_lithopgraphy_power_up:
-		displayResin()
-		display_lithopgraphy_power_up = false
-		picking_resin_state_on = true
 
 func _input(event):	
-	if event.is_action_pressed("debug"):
-		print(pathFinder.pathfind(self, startPoint, endPointList[level]))
-
 	if not $timer.paused and event.is_action_pressed("lithography_power_up"):
-		if not preload_lithopgraphy_power_up and lithography_charge_count > 0:
-			preload_lithopgraphy_power_up = true
+		if stateMachine.is_normal() and lithography_charge_count > 0:
+			stateMachine.require_litho()
 
-	if picking_resin_state_on:
+	if stateMachine.is_showing_litho():
 		if event is InputEventKey and event.pressed and event.scancode == KEY_SHIFT:
-			picking_resin_state_on = false
+			stateMachine.reset()
 			removeResin()
 			$timer.set_paused(false)
 		elif event is InputEventMouseButton and event.pressed:
@@ -105,9 +96,7 @@ func init_variable_state():
 	current_block = null
 	next_block = null
 	resin_blocks.clear()
-	preload_lithopgraphy_power_up = false
-	display_lithopgraphy_power_up = false
-	picking_resin_state_on = false
+	stateMachine.reset()
 	lithography_charge_count = (level+1)
 	
 func nextLevel():
@@ -119,19 +108,25 @@ func nextLevel():
 	init_grid()
 	init_variable_state()
 
-func trigger():
-	if current_block == null and preload_lithopgraphy_power_up:
+
+func next_process_step():
+	if current_block == null and stateMachine.is_needing_litho():
 		$timer.set_paused(true)
 		lithography_charge_count -= 1
-		preload_lithopgraphy_power_up = false
-		display_lithopgraphy_power_up = true
-		return
-
-	move_block_down(current_block)
-
-func move_block_down(block):
+		displayResin()
+		stateMachine.show_litho()
+		return false
 	if current_block == null:
 		createNewBlock()
+	return true
+
+func trigger():
+	if next_process_step():
+		move_block_down(current_block)
+
+func move_block_down(block):
+	if not next_process_step():
+		return
 	
 	clearBlock(current_block)
 	move_block(current_block, Vector2(0, 1) )
@@ -142,7 +137,7 @@ func move_block_down(block):
 		if pathFinder.pathfind(self, startPoint, endPointList[level]):
 			nextLevel()
 			return
-		if not preload_lithopgraphy_power_up:
+		if not stateMachine.is_needing_litho():
 			createNewBlock()
 		else:
 			current_block = null
