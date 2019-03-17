@@ -7,26 +7,26 @@
 [ext_resource path="res://resources/Roboto-Regular.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://scenes/HUBButtons.tscn" type="PackedScene" id=6]
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.52549, 0.513726, 0.513726, 1 )
 
-[sub_resource type="ParticlesMaterial" id=5]
+[sub_resource type="ParticlesMaterial" id=2]
 emission_shape = 1
 emission_sphere_radius = 35.0
 flag_disable_z = true
 gravity = Vector3( 0, 5, 0 )
+angular_velocity = 4.23025e+21
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 2.0
 scale_random = 0.1
 color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=3]
 size = 25
 font_data = ExtResource( 5 )
 
-[sub_resource type="Animation" id=2]
-resource_name = "anim"
+[sub_resource type="Animation" id=4]
 length = 5.0
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:percent_visible")
@@ -41,7 +41,7 @@ tracks/0/keys = {
 "values": [ 0.0, 0.39, 0.631, 1.0 ]
 }
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=5]
 script/source = "extends AnimationPlayer
 
 # Declare member variables here. Examples:
@@ -79,7 +79,7 @@ margin_top = 493.52
 margin_right = 83.8877
 margin_bottom = 573.52
 focus_mode = 0
-custom_styles/hover = SubResource( 4 )
+custom_styles/hover = SubResource( 1 )
 enabled_focus_mode = 0
 icon = ExtResource( 4 )
 flat = true
@@ -87,7 +87,7 @@ flat = true
 [node name="Particles2D" type="Particles2D" parent="BackButton"]
 visible = false
 position = Vector2( 42.2267, 44.1175 )
-process_material = SubResource( 5 )
+process_material = SubResource( 2 )
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 anchor_left = 0.5
@@ -98,7 +98,7 @@ margin_left = -364.5
 margin_top = -169.5
 margin_right = 364.5
 margin_bottom = 169.5
-custom_fonts/normal_font = SubResource( 1 )
+custom_fonts/normal_font = SubResource( 3 )
 custom_colors/default_color = Color( 0.372549, 0.368627, 0.368627, 1 )
 visible_characters = 0
 percent_visible = 0.195
@@ -115,8 +115,8 @@ Sound Designer : GRASLAND Hadrien
 Game Designer : LANDRI Camille, BUFFETEAU David"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="RichTextLabel"]
-anims/anim = SubResource( 2 )
-script = SubResource( 3 )
+anims/anim = SubResource( 4 )
+script = SubResource( 5 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="RichTextLabel"]
 

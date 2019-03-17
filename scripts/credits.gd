@@ -14,8 +14,5 @@ func _ready():
 	$RichTextLabel/AudioStreamPlayer.play()
 	
 func backba():
-	get_tree().change_scene("res://scenes/Menu.tscn")
+	Transition.fade_to("res://scenes/Menu.tscn")
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
