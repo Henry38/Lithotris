@@ -1,9 +1,14 @@
 extends TileMap
 
+signal generate_block
+signal prepare_block
+
 var FallingObject = preload("res://scripts/FallingObject.gd")
+onready var g = $"/root/global"
 
 # Main variables
 var current_block = null
+var next_block = null
 var resin_blocks = []
 var preload_lithopgraphy_power_up = false
 var display_lithopgraphy_power_up = false
@@ -11,19 +16,26 @@ var picking_resin_state_on = false
 var lithography_charge_count = 1
 export(int) var width = 10
 export(int) var height = 20
+export(int) var level = 0
 
 var pathFinder = preload("res://scripts/PathFinder.gd").new()
+var lighteningTile = preload("res://scripts/LighteningTile.gd").new()
 onready var startPoint = Vector2(0, height - 1)
-onready var endPoint = Vector2(10, width)
-
-const WALL_TILE = 5
-const BACKGROUND_TILE = 0
+onready var endPointList = [Vector2(width, height-2),
+							Vector2(width, height-4),
+							Vector2(width, height-6),
+							Vector2(width, height-8),
+							Vector2(width, height-12),
+							Vector2(width, height-16)
+						   ]
 
 const shapes = [
 	preload("res://scenes/shapes/SquareShape.tscn"),
 	preload("res://scenes/shapes/BarShape.tscn"),
 	preload("res://scenes/shapes/LShape.tscn"),
+	preload("res://scenes/shapes/ReverseLShape.tscn"),
 	preload("res://scenes/shapes/SquiglyShape.tscn"),
+	preload("res://scenes/shapes/ReverseSquiglyShape.tscn"),
 	preload("res://scenes/shapes/TShape.tscn")
 ]
 
@@ -31,8 +43,6 @@ const shapes = [
 func _ready():
 	randomize()
 	init_grid()
-	self.set_cellv(startPoint, 3)
-	self.set_cellv(endPoint, 4)
 	$timer.connect("timeout", self, "trigger")
 
 func _process(delta):
@@ -57,7 +67,7 @@ func _process(delta):
 
 func _input(event):	
 	if event.is_action_pressed("debug"):
-		print(pathFinder.pathfind(self, startPoint, endPoint))
+		print(pathFinder.pathfind(self, startPoint, endPointList[level]))
 
 	if not $timer.paused and event.is_action_pressed("lithography_power_up"):
 		if not preload_lithopgraphy_power_up and lithography_charge_count > 0:
@@ -69,25 +79,45 @@ func _input(event):
 			removeResin()
 			$timer.set_paused(false)
 		elif event is InputEventMouseButton and event.pressed:
-			var cx = int(event.position.x / (self.cell_size.x * self.scale.x))
+			var cx = int((event.position.x - 300) / (self.cell_size.x * self.scale.x))
 			var cy = int(event.position.y / (self.cell_size.y * self.scale.y))
 
 			for r in resin_blocks:
 				if r == Vector2(cx,cy):
 					var id = self.get_cell(cx,cy)
-					if id == 7:
-						self.set_cell(cx,cy,6)
-					if id == 6:
-						self.set_cell(cx,cy,7)
+					if id == g.RESIN_CLICKED_TILE:
+						self.set_cell(cx,cy,g.RESIN_TILE)
+					if id == g.RESIN_TILE:
+						self.set_cell(cx,cy,g.RESIN_CLICKED_TILE)
 
 func init_grid():
 	for y in range(height + 1):
 		for x in range(width + 1):
 			if y == 0 or x == 0 or x == width or y == height:
-				self.set_cell(x, y, WALL_TILE)
+				self.set_cell(x, y, g.WALL_TILE)
 			else:
-				self.set_cell(x, y, BACKGROUND_TILE)
-		
+				self.set_cell(x, y, g.BACKGROUND_TILE)
+
+	self.set_cellv(startPoint, g.STARTING_TILE)
+	self.set_cellv(endPointList[level], g.ENDING_TILE)
+
+func init_variable_state():
+	current_block = null
+	next_block = null
+	resin_blocks.clear()
+	preload_lithopgraphy_power_up = false
+	display_lithopgraphy_power_up = false
+	picking_resin_state_on = false
+	lithography_charge_count = (level+1)
+	
+func nextLevel():
+	if level == endPointList.size() - 1:
+		print("All level finished !")
+		$timer.set_paused(true)
+		return
+	level += 1
+	init_grid()
+	init_variable_state()
 
 func trigger():
 	if current_block == null and preload_lithopgraphy_power_up:
@@ -108,8 +138,9 @@ func move_block_down(block):
 	if checkCollisionBlock(current_block):
 		move_block(current_block, Vector2(0, -1))
 		displayBlock(current_block)
-		if pathFinder.pathfind(self, startPoint, endPoint):
-			print("Finished")
+		lighteningTile.lightenBlock(self, current_block)
+		if pathFinder.pathfind(self, startPoint, endPointList[level]):
+			nextLevel()
 			return
 		if not preload_lithopgraphy_power_up:
 			createNewBlock()
@@ -118,15 +149,34 @@ func move_block_down(block):
 	displayBlock(current_block)
 
 func createNewBlock():
+	if next_block == null:
+		next_block = generate_block()
+	
+	current_block = next_block
+	next_block = generate_block()
+	emit_signal("generate_block")
+	emit_signal("prepare_block", next_block)
+	
+	if checkCollisionBlock(current_block):
+		print("Game Over !")
+		$timer.set_paused(true)
+
+func generate_block():
+	var threshold = 60 - (level * 4)
+	
+	var id = g.ISOLATOR_TILE
+	if (randi() % 100) < threshold:
+		id = g.CONDUCTOR_TILE
+	
 	var rand_tilemap : TileMap = shapes[randi() % shapes.size()].instance()
-	var new_block = FallingObject.new(1 + (randi() % 2), rand_tilemap.get_used_cells())
+	var new_block = FallingObject.new(id, rand_tilemap.get_used_cells())
 	if (randi() % 2) == 0:
 		new_block.rotate_left()
 	else:
 		new_block.rotate_right()
 	new_block.x = int(width / 2) - int(new_block.width / 2)
 	new_block.y = 1
-	current_block = new_block
+	return new_block
 
 # Return true if the current block touch the ground else false
 func checkCollisionBlock(block) -> bool:
@@ -146,14 +196,14 @@ func checkCollisionBlock(block) -> bool:
 			var id_left = block.get_cell(x-1,y)
 			var id_right = block.get_cell(x+1,y)
 
-			if id > 0 and (id_below <= 0 or id_left <= 0 or id_right <= 0):
+			if id > g.BACKGROUND_TILE and (id_below <= g.BACKGROUND_TILE or id_left <= g.BACKGROUND_TILE or id_right <= g.BACKGROUND_TILE):
 				keep.append(Vector2(x,y))
 
 	for c in keep:
 		var x = pos.x + c.x
 		var y = pos.y + c.y
 		var id = self.get_cell(x,y)
-		if id > 0:
+		if id > g.BACKGROUND_TILE:
 			collision = true
 			break
 
@@ -206,7 +256,7 @@ func clearBlock(block):
 	for y in range(0,h):
 		for x in range(0,w):
 			var id = block.get_cell(x,y)
-			if id > 0:
+			if id > g.BACKGROUND_TILE:
 				self.set_cell(pos.x + x, pos.y + y, 0)
 
 func displayBlock(block):
@@ -220,7 +270,7 @@ func displayBlock(block):
 	for y in range(0,h):
 		for x in range(0,w):
 			var id = block.get_cell(x,y)
-			if id > 0:
+			if id > g.BACKGROUND_TILE:
 				self.set_cell(pos.x + x, pos.y + y, id)
 
 func displayResin():
@@ -228,16 +278,17 @@ func displayResin():
 	for x in range(1,width):
 		for y in range(1,height):
 			var id = self.get_cell(x,y)
-			if id > 0:
+			if id > g.BACKGROUND_TILE:
 				resin_blocks.append(Vector2(x,y-1))
-				self.set_cell(x,y-1,6)
+				self.set_cell(x,y-1,g.RESIN_TILE)
 				break
 
 func removeResin():
 	for p in resin_blocks:
 		var id = self.get_cell(p.x,p.y)
-		if id == 7:
+		if id == g.RESIN_CLICKED_TILE:
 			var id_below = self.get_cell(p.x,p.y+1)
-			if id_below == 2:
-				self.set_cell(p.x,p.y+1,0)
-		self.set_cell(p.x,p.y,0)
+			if id_below == g.ISOLATOR_TILE:
+				self.set_cell(p.x,p.y+1,g.BACKGROUND_TILE)
+		self.set_cell(p.x,p.y,g.BACKGROUND_TILE)
+	resin_blocks.clear()

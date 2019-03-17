@@ -28,22 +28,22 @@ func _init(cellId, cellPositions):
 			min_y = p.y
 		if p.y > max_y:
 			max_y = p.y
-			
-		self.width = (max_x - min_x) + 1
-		self.height = (max_y - min_y) + 1
-
+	
+	self.width = (max_x - min_x) + 1
+	self.height = (max_y - min_y) + 1
+	
 	self.matrix = []
 	
 	for x in range(0,self.width):
 		self.matrix.append([])
 		for y in range(0,self.height):
-			self.matrix[x].append(0)
+			self.matrix[x].append(-1)
 			
 	for p in cellPositions:
 		var x = p.x
 		var y = p.y
 		self.matrix[x][y] = cellId
-				
+
 func cell_id():
 	return _cellId
 	

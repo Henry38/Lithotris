@@ -6,5 +6,5 @@
 tile_set = ExtResource( 1 )
 cell_quadrant_size = 64
 format = 1
-tile_data = PoolIntArray( 0, 2, 0, 1, 2, 0, 65537, 2, 0, 65538, 2, 0 )
+tile_data = PoolIntArray( 1, 2, 0, 2, 2, 0, 65536, 2, 0, 65537, 2, 0 )
 
