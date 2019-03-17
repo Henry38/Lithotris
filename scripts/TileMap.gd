@@ -106,6 +106,7 @@ func init_variable_state():
 	preload_lithopgraphy_power_up = false
 	display_lithopgraphy_power_up = false
 	picking_resin_state_on = false
+	lithography_charge_count = (level+1)
 	
 func nextLevel():
 	if level == endPointList.size() - 1:
@@ -154,8 +155,14 @@ func createNewBlock():
 	emit_signal("prepare_block", next_block)
 
 func generate_block():
+	var threshold = 60 - (level * 4)
+	
+	var id = g.ISOLATOR_TILE
+	if (randi() % 100) < threshold:
+		id = g.CONDUCTOR_TILE
+	
 	var rand_tilemap : TileMap = shapes[randi() % shapes.size()].instance()
-	var new_block = FallingObject.new(1 + (randi() % 2), rand_tilemap.get_used_cells())
+	var new_block = FallingObject.new(id, rand_tilemap.get_used_cells())
 	if (randi() % 2) == 0:
 		new_block.rotate_left()
 	else:
