@@ -42,27 +42,27 @@ const shapes = [
 func _ready():
 	randomize()
 	init_grid()
+#warning-ignore:return_value_discarded
 	$timer.connect("timeout", self, "trigger")
 
-func _process(delta):
-	if not $timer.paused:
-		if Input.is_action_just_pressed("rotate_left"):
-			rotate_block(current_block, "left")
-		elif Input.is_action_just_pressed("rotate_right"):
-			rotate_block(current_block, "right")
-		
-		if Input.is_action_just_pressed("move_left"):
-			update_block(current_block, Vector2(-1, 0))
-		elif Input.is_action_just_pressed("move_right"):
-			update_block(current_block, Vector2(1, 0))
-			
-		if Input.is_action_just_pressed("move_down"):
-			move_block_down(current_block)
-
-func _input(event):	
+func _input(event):
 	if not $timer.paused and event.is_action_pressed("lithography_power_up"):
 		if stateMachine.is_normal() and litho_provider.has_litho():
 			stateMachine.require_litho()
+
+	if not stateMachine.is_showing_litho():
+		if event.is_action_pressed("rotate_left"):
+			rotate_block(current_block, "left")
+		elif event.is_action_pressed("rotate_right"):
+			rotate_block(current_block, "right")
+			
+		if event.is_action("move_left"):
+			update_block(current_block, Vector2(-1, 0))
+		elif event.is_action_pressed("move_right"):
+			update_block(current_block, Vector2(1, 0))
+			
+		if event.is_action_pressed("move_down"):
+			move_block_down(current_block)
 
 	if stateMachine.is_showing_litho():
 		if event is InputEventKey and event.pressed and event.scancode == KEY_SHIFT:
@@ -128,12 +128,12 @@ func move_block_down(block):
 	if not next_process_step():
 		return
 	
-	clearBlock(current_block)
-	move_block(current_block, Vector2(0, 1) )
-	if checkCollisionBlock(current_block):
-		move_block(current_block, Vector2(0, -1))
-		displayBlock(current_block)
-		lighteningTile.lightenBlock(self, current_block)
+	clearBlock(block)
+	move_block(block, Vector2(0, 1) )
+	if checkCollisionBlock(block):
+		move_block(block, Vector2(0, -1))
+		displayBlock(block)
+		lighteningTile.lightenBlock(self, block)
 		if pathFinder.pathfind(self, startPoint, endPointList[level]):
 			nextLevel()
 			return
@@ -141,7 +141,7 @@ func move_block_down(block):
 			createNewBlock()
 		else:
 			current_block = null
-	displayBlock(current_block)
+	displayBlock(block)
 
 func createNewBlock():
 	if next_block == null:
