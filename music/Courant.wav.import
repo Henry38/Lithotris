@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Courant.wav-9c623223f1767cef350f9964cf62e011.sample"
+
+[deps]
+
+source_file="res://music/Courant.wav"
+dest_files=[ "res://.import/Courant.wav-9c623223f1767cef350f9964cf62e011.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0
