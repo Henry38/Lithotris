@@ -203,5 +203,7 @@ anims/Fading = SubResource( 13 )
 anims/zes = SubResource( 14 )
 
 [node name="HUBButtons" parent="." instance=ExtResource( 6 )]
+margin_left = -132.0
+margin_right = 0.0
 show_pause_button = false
 

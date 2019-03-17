@@ -24,6 +24,7 @@ config/icon="res://icon.png"
 MusicMenu="*res://scenes/MusicMenu.tscn"
 Transition="*res://scenes/Transition.tscn"
 global="*res://scripts/global.gd"
+Popups="*res://scenes/Popups.tscn"
 
 [display]
 
