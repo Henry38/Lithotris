@@ -20,4 +20,3 @@ func is_conductor(v : int) -> bool:
 	
 func is_useless(v : int) -> bool:
 	return v <= 0
-	

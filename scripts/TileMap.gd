@@ -33,7 +33,9 @@ const shapes = [
 	preload("res://scenes/shapes/SquareShape.tscn"),
 	preload("res://scenes/shapes/BarShape.tscn"),
 	preload("res://scenes/shapes/LShape.tscn"),
+	preload("res://scenes/shapes/ReverseLShape.tscn"),
 	preload("res://scenes/shapes/SquiglyShape.tscn"),
+	preload("res://scenes/shapes/ReverseSquiglyShape.tscn"),
 	preload("res://scenes/shapes/TShape.tscn")
 ]
 

@@ -15,6 +15,7 @@ margin_bottom = 49.0
 margin_right = 53.0
 margin_bottom = 49.0
 focus_mode = 0
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 enabled_focus_mode = 0
 icon = ExtResource( 1 )
 flat = true
