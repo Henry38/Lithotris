@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/credits.gd" type="Script" id=1]
 [ext_resource path="res://images/creditsback.jpg" type="Texture" id=2]
@@ -6,6 +6,20 @@
 [ext_resource path="res://images/retour.png" type="Texture" id=4]
 [ext_resource path="res://resources/Roboto-Regular.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://scenes/HUBButtons.tscn" type="PackedScene" id=6]
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.52549, 0.513726, 0.513726, 1 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+emission_shape = 1
+emission_sphere_radius = 35.0
+flag_disable_z = true
+gravity = Vector3( 0, 5, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 2.0
+scale_random = 0.1
+color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="DynamicFont" id=1]
 size = 25
@@ -65,9 +79,15 @@ margin_top = 493.52
 margin_right = 83.8877
 margin_bottom = 573.52
 focus_mode = 0
+custom_styles/hover = SubResource( 4 )
 enabled_focus_mode = 0
 icon = ExtResource( 4 )
 flat = true
+
+[node name="Particles2D" type="Particles2D" parent="BackButton"]
+visible = false
+position = Vector2( 42.2267, 44.1175 )
+process_material = SubResource( 5 )
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 anchor_left = 0.5
@@ -80,6 +100,8 @@ margin_right = 364.5
 margin_bottom = 169.5
 custom_fonts/normal_font = SubResource( 1 )
 custom_colors/default_color = Color( 0.372549, 0.368627, 0.368627, 1 )
+visible_characters = 0
+percent_visible = 0.195
 text = "Jeu réalisé lors de la cinquième Scientific Game Jam de Grenoble, organisée du 15 au 17 Mars 2019 par la Communauté Université Grenoble Alpes, en partenariat avec La Casemate (CCSTI) et avec le soutien financier de l’Idex Université Grenoble Alpes. Cette année, l'événement est également labellisé \"80 ans du CNRS\"
 
 Nom de l'équipe : \"Tétra\"

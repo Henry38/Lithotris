@@ -1,9 +1,23 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/Leaderboard.gd" type="Script" id=1]
 [ext_resource path="res://images/classementback.jpg" type="Texture" id=2]
 [ext_resource path="res://images/retour.png" type="Texture" id=3]
 [ext_resource path="res://scenes/HUBButtons.tscn" type="PackedScene" id=4]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.52549, 0.513726, 0.513726, 1 )
+
+[sub_resource type="ParticlesMaterial" id=2]
+emission_shape = 1
+emission_sphere_radius = 35.0
+flag_disable_z = true
+gravity = Vector3( 0, 5, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 2.0
+scale_random = 0.1
+color = Color( 0, 0, 0, 1 )
 
 [node name="Root" type="Control"]
 anchor_right = 1.0
@@ -23,9 +37,15 @@ margin_top = 493.52
 margin_right = 83.888
 margin_bottom = 573.52
 focus_mode = 0
+custom_styles/hover = SubResource( 1 )
 enabled_focus_mode = 0
 icon = ExtResource( 3 )
 flat = true
+
+[node name="Particles2D" type="Particles2D" parent="BackButton"]
+visible = false
+position = Vector2( 42.2267, 44.1175 )
+process_material = SubResource( 2 )
 
 [node name="HUBButtons" parent="." instance=ExtResource( 4 )]
 
