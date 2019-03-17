@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://resources/fonts/PermanentMarker-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://resources/fonts/Roboto-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://images/icons/aide.png" type="Texture" id=3]
+[ext_resource path="res://images/commande.png" type="Texture" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 24
@@ -11,11 +13,18 @@ font_data = ExtResource( 1 )
 size = 18
 font_data = ExtResource( 2 )
 
+[sub_resource type="DynamicFont" id=3]
+size = 30
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 2 )
+
 [node name="Popups" type="CanvasLayer"]
 layer = 100
 
 [node name="PauseDialog" type="WindowDialog" parent="."]
-visible = true
+editor/display_folded = true
 margin_right = 300.0
 margin_bottom = 210.0
 custom_constants/close_h_ofs = 0
@@ -66,4 +75,40 @@ margin_right = 175.0
 margin_bottom = 149.0
 custom_fonts/font = SubResource( 2 )
 text = "Menu"
+
+[node name="HelpDialog" type="WindowDialog" parent="."]
+visible = true
+margin_right = 600.0
+margin_bottom = 300.0
+popup_exclusive = true
+
+[node name="Label" type="Label" parent="HelpDialog"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -150.0
+margin_top = 19.3445
+margin_right = 151.0
+margin_bottom = 63.3445
+custom_fonts/font = SubResource( 3 )
+text = "Commandes"
+align = 1
+
+[node name="Sprite" type="Sprite" parent="HelpDialog/Label"]
+position = Vector2( 32.1558, 21.5621 )
+scale = Vector2( 1.35975, 1.35975 )
+texture = ExtResource( 3 )
+
+[node name="commande" type="Sprite" parent="HelpDialog"]
+position = Vector2( 0, 66.6479 )
+scale = Vector2( 0.560412, 0.560412 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="Ligho" type="Label" parent="HelpDialog"]
+margin_left = 482.065
+margin_top = 164.815
+margin_right = 564.065
+margin_bottom = 178.815
+custom_fonts/font = SubResource( 4 )
+text = "Litographie"
 
