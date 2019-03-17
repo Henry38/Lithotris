@@ -21,7 +21,8 @@ config/icon="res://icon.png"
 
 [autoload]
 
-global="res://scripts/global.gd"
+global="*res://scripts/global.gd"
+Transition="*res://scenes/Transition.tscn"
 
 [display]
 

@@ -12,10 +12,10 @@ func _ready():
 	$CreditsButton.connect("pressed", self, "changescenecredits")
 	
 func changescenelead():
-	get_tree().change_scene("res://scenes/Leaderboard.tscn")
+	Transition.fade_to("res://scenes/Leaderboard.tscn")
 	
 func changescenecredits():
-	get_tree().change_scene("res://scenes/credits.tscn")	
+	Transition.fade_to("res://scenes/credits.tscn")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
