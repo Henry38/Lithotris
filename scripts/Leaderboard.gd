@@ -11,15 +11,10 @@ const LABEL = preload("res://scenes/material/GenericLabel.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var saveFile = File.new()
-	if saveFile.file_exists(FILE_NAME):
-		read_file(FILE_NAME)
-	else:
-		saveFile.open(FILE_NAME, File.WRITE)
-		var arr = [102, 50, 300]
-		show_leaders(arr)
-		saveFile.store_string(to_json(arr))
-		saveFile.close()
+	var arr = [102, 50, 300, 67, 45, 12, 56, 523]
+	arr.sort()
+	arr.invert()
+	show_leaders(arr)
 	$BackButton.connect("pressed", self, "backb")
 	
 func read_file(file):

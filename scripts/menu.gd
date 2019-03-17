@@ -10,7 +10,11 @@ func _ready():
 	$LeaveButton.connect("pressed", get_tree(), "quit")
 	$LeadButton.connect("pressed", self, "goto_scene", ["res://scenes/Leaderboard.tscn"])
 	$CreditsButton.connect("pressed", self, "goto_scene", ["res://scenes/credits.tscn"])
-	$PlayButton.connect("pressed", self, "goto_scene", ["res://scenes/Tutorial.tscn"])
+	$PlayButton.connect("pressed", self, "play")
+
+func play():
+	MusicMenu.get_node("Music").stop()
+	goto_scene("res://scenes/Tutorial.tscn")
 
 func goto_scene(scene: String):
 	Transition.fade_to(scene)
