@@ -4,7 +4,7 @@ signal generate_block
 signal prepare_block
 
 var FallingObject = preload("res://scripts/FallingObject.gd")
-var global = preload("res://scripts/global.gd")
+onready var g = $"/root/global"
 
 # Main variables
 var current_block = null
@@ -18,6 +18,7 @@ export(int) var width = 10
 export(int) var height = 20
 
 var pathFinder = preload("res://scripts/PathFinder.gd").new()
+var lighteningTile = preload("res://scripts/LighteningTile.gd").new()
 onready var startPoint = Vector2(0, height - 1)
 onready var endPoint = Vector2(10, width)
 
@@ -77,18 +78,18 @@ func _input(event):
 			for r in resin_blocks:
 				if r == Vector2(cx,cy):
 					var id = self.get_cell(cx,cy)
-					if id == global.RESIN_CLICKED_TILE:
-						self.set_cell(cx,cy,global.RESIN_TILE)
-					if id == global.RESIN_TILE:
-						self.set_cell(cx,cy,global.RESIN_CLICKED_TILE)
+					if id == g.RESIN_CLICKED_TILE:
+						self.set_cell(cx,cy,g.RESIN_TILE)
+					if id == g.RESIN_TILE:
+						self.set_cell(cx,cy,g.RESIN_CLICKED_TILE)
 
 func init_grid():
 	for y in range(height + 1):
 		for x in range(width + 1):
 			if y == 0 or x == 0 or x == width or y == height:
-				self.set_cell(x, y, global.WALL_TILE)
+				self.set_cell(x, y, g.WALL_TILE)
 			else:
-				self.set_cell(x, y, global.BACKGROUND_TILE)
+				self.set_cell(x, y, g.BACKGROUND_TILE)
 		
 
 func trigger():
@@ -110,6 +111,7 @@ func move_block_down(block):
 	if checkCollisionBlock(current_block):
 		move_block(current_block, Vector2(0, -1))
 		displayBlock(current_block)
+		lighteningTile.lightenBlock(self, current_block)
 		if pathFinder.pathfind(self, startPoint, endPoint):
 			print("Finished")
 			return
@@ -157,14 +159,14 @@ func checkCollisionBlock(block) -> bool:
 			var id_left = block.get_cell(x-1,y)
 			var id_right = block.get_cell(x+1,y)
 
-			if id > global.BACKGROUND_TILE and (id_below <= global.BACKGROUND_TILE or id_left <= global.BACKGROUND_TILE or id_right <= global.BACKGROUND_TILE):
+			if id > g.BACKGROUND_TILE and (id_below <= g.BACKGROUND_TILE or id_left <= g.BACKGROUND_TILE or id_right <= g.BACKGROUND_TILE):
 				keep.append(Vector2(x,y))
 
 	for c in keep:
 		var x = pos.x + c.x
 		var y = pos.y + c.y
 		var id = self.get_cell(x,y)
-		if id > global.BACKGROUND_TILE:
+		if id > g.BACKGROUND_TILE:
 			collision = true
 			break
 
@@ -217,7 +219,7 @@ func clearBlock(block):
 	for y in range(0,h):
 		for x in range(0,w):
 			var id = block.get_cell(x,y)
-			if id > global.BACKGROUND_TILE:
+			if id > g.BACKGROUND_TILE:
 				self.set_cell(pos.x + x, pos.y + y, 0)
 
 func displayBlock(block):
@@ -231,7 +233,7 @@ func displayBlock(block):
 	for y in range(0,h):
 		for x in range(0,w):
 			var id = block.get_cell(x,y)
-			if id > global.BACKGROUND_TILE:
+			if id > g.BACKGROUND_TILE:
 				self.set_cell(pos.x + x, pos.y + y, id)
 
 func displayResin():
@@ -239,16 +241,16 @@ func displayResin():
 	for x in range(1,width):
 		for y in range(1,height):
 			var id = self.get_cell(x,y)
-			if id > global.BACKGROUND_TILE:
+			if id > g.BACKGROUND_TILE:
 				resin_blocks.append(Vector2(x,y-1))
-				self.set_cell(x,y-1,global.RESIN_TILE)
+				self.set_cell(x,y-1,g.RESIN_TILE)
 				break
 
 func removeResin():
 	for p in resin_blocks:
 		var id = self.get_cell(p.x,p.y)
-		if id == global.RESIN_CLICKED_TILE:
+		if id == g.RESIN_CLICKED_TILE:
 			var id_below = self.get_cell(p.x,p.y+1)
-			if id_below == global.ISOLATOR_TILE:
-				self.set_cell(p.x,p.y+1,global.BACKGROUND_TILE)
-		self.set_cell(p.x,p.y,global.BACKGROUND_TILE)
+			if id_below == g.ISOLATOR_TILE:
+				self.set_cell(p.x,p.y+1,g.BACKGROUND_TILE)
+		self.set_cell(p.x,p.y,g.BACKGROUND_TILE)
