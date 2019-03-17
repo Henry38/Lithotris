@@ -50,6 +50,31 @@ func _ready():
 	$timer.connect("timeout", self, "trigger")
 
 func _process(delta):
+	if stateMachine.is_show_game_over():
+		if wait_time > 0:
+			wait_time -= 1
+			return
+			
+		if fade_t < 0:
+			var d = -fade_t
+			var alpha = $game_over_sprite.get_modulate().a
+			alpha = (alpha * (d-1) + target_alpha) / d
+			$game_over_sprite.set_modulate(Color(1,1,1,alpha))
+			fade_t += 1
+			if fade_t == 0:
+				print("finished")
+			
+		if fade_t > 0:
+			var d = fade_t
+			var alpha = $game_over_sprite.get_modulate().a
+			alpha = (alpha * (d-1) + target_alpha) / d
+			$game_over_sprite.set_modulate(Color(1,1,1,alpha))
+			fade_t -= 1
+			if fade_t == 0:
+				target_alpha = 0
+				fade_t = -100
+				wait_time = 100
+			
 	if stateMachine.is_show_victory():
 		if wait_time > 0:
 			wait_time -= 1
@@ -74,8 +99,6 @@ func _process(delta):
 				target_alpha = 0
 				fade_t = -100
 				wait_time = 100
-			
-		return
 		
 func show_victory():
 	stateMachine.show_victory()
@@ -83,7 +106,15 @@ func show_victory():
 	$victory_sprite.set_modulate(Color(1,1,1,0))
 	target_alpha = 1.0
 	$victory_sprite.set_visible(true)
-			
+	
+func show_game_over():
+	stateMachine.show_game_over()
+	fade_t = 100
+	$game_over_sprite.set_modulate(Color(1,1,1,0))
+	target_alpha = 1.0
+	$game_over_sprite.set_visible(true)
+	$timer.set_paused(true)
+
 func _input(event):
 	if stateMachine.is_show_victory():
 		return
@@ -196,8 +227,9 @@ func createNewBlock():
 	emit_signal("prepare_block", next_block)
 	
 	if checkCollisionBlock(current_block):
-		print("Game Over !")
-		$timer.set_paused(true)
+		show_game_over()
+	#	print("Game Over !")
+	#	$timer.set_paused(true)
 
 func generate_block():
 	var threshold = 60 - (level * 4)
