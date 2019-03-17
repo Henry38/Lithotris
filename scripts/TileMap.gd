@@ -116,7 +116,7 @@ func show_game_over():
 	$timer.set_paused(true)
 
 func _input(event):
-	if stateMachine.is_show_victory():
+	if stateMachine.is_show_victory() or stateMachine.is_show_game_over():
 		return
 		
 	if not $timer.paused and event.is_action_pressed("lithography_power_up"):
