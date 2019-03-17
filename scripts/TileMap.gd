@@ -21,7 +21,13 @@ export(int) var level = 0
 var pathFinder = preload("res://scripts/PathFinder.gd").new()
 var lighteningTile = preload("res://scripts/LighteningTile.gd").new()
 onready var startPoint = Vector2(0, height - 1)
-onready var endPointList = [Vector2(width, height-2), Vector2(width, height-4), Vector2(width, height-6), Vector2(width, height-8), Vector2(width, height-12), Vector2(width, height-16)]
+onready var endPointList = [Vector2(width, height-2),
+							Vector2(width, height-4),
+							Vector2(width, height-6),
+							Vector2(width, height-8),
+							Vector2(width, height-12),
+							Vector2(width, height-16)
+						   ]
 
 const shapes = [
 	preload("res://scenes/shapes/SquareShape.tscn"),
@@ -102,9 +108,12 @@ func init_variable_state():
 	picking_resin_state_on = false
 	
 func nextLevel():
+	if level == endPointList.size() - 1:
+		$timer.set_paused(true)
+		return
+	level += 1
 	init_grid()
 	init_variable_state()
-	level += 1
 
 func trigger():
 	if current_block == null and preload_lithopgraphy_power_up:
