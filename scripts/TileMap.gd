@@ -228,8 +228,6 @@ func createNewBlock():
 	
 	if checkCollisionBlock(current_block):
 		show_game_over()
-	#	print("Game Over !")
-	#	$timer.set_paused(true)
 
 func generate_block():
 	var threshold = 60 - (level * 4)
