@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://scripts/menu.gd" type="Script" id=1]
 [ext_resource path="res://images/backmainmenu.jpg" type="Texture" id=2]
@@ -36,6 +36,69 @@ resource_name = "zes"
 [sub_resource type="DynamicFont" id=5]
 size = 25
 font_data = ExtResource( 5 )
+
+[sub_resource type="Animation" id=6]
+resource_name = "Fade"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:custom_colors/font_color_hover")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.282353, 0.27451, 0.27451, 0.784314 ), Color( 0.282353, 0.27451, 0.27451, 1 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "Fading"
+
+[sub_resource type="Animation" id=8]
+resource_name = "zes"
+
+[sub_resource type="Animation" id=9]
+resource_name = "Fade"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:custom_colors/font_color_hover")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.282353, 0.27451, 0.27451, 0.784314 ), Color( 0.282353, 0.27451, 0.27451, 1 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "Fading"
+
+[sub_resource type="Animation" id=11]
+resource_name = "zes"
+
+[sub_resource type="Animation" id=12]
+resource_name = "Fade"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:custom_colors/font_color_hover")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.282353, 0.27451, 0.27451, 0.784314 ), Color( 0.282353, 0.27451, 0.27451, 1 ) ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "Fading"
+
+[sub_resource type="Animation" id=14]
+resource_name = "zes"
 
 [node name="Root" type="Control"]
 anchor_right = 1.0
@@ -86,6 +149,12 @@ custom_colors/font_color_hover = Color( 0.372549, 0.368627, 0.368627, 0.784314 )
 enabled_focus_mode = 0
 text = "Classement"
 flat = true
+script = ExtResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="LeadButton"]
+anims/Fade = SubResource( 6 )
+anims/Fading = SubResource( 7 )
+anims/zes = SubResource( 8 )
 
 [node name="CreditsButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -103,6 +172,12 @@ custom_colors/font_color_hover = Color( 0.372549, 0.368627, 0.368627, 0.784314 )
 enabled_focus_mode = 0
 text = "Crédits"
 flat = true
+script = ExtResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CreditsButton"]
+anims/Fade = SubResource( 9 )
+anims/Fading = SubResource( 10 )
+anims/zes = SubResource( 11 )
 
 [node name="LeaveButton" type="Button" parent="."]
 anchor_left = 0.5
@@ -120,6 +195,12 @@ custom_colors/font_color_hover = Color( 0.372549, 0.368627, 0.368627, 0.784314 )
 enabled_focus_mode = 0
 text = "Quitter"
 flat = true
+script = ExtResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="LeaveButton"]
+anims/Fade = SubResource( 12 )
+anims/Fading = SubResource( 13 )
+anims/zes = SubResource( 14 )
 
 [node name="HUBButtons" parent="." instance=ExtResource( 6 )]
 show_pause_button = false
