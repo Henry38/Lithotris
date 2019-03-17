@@ -354,6 +354,7 @@ func displayBlock(block):
 				self.set_cell(pos.x + x, pos.y + y, id)
 
 func displayResin():
+	$resin.play()
 	resin_blocks.clear()
 	for x in range(1,width):
 		for y in range(1,height):
@@ -371,4 +372,5 @@ func removeResin():
 			if id_below == g.ISOLATOR_TILE:
 				self.set_cell(p.x,p.y+1,g.BACKGROUND_TILE)
 		self.set_cell(p.x,p.y,g.BACKGROUND_TILE)
+	$gravure.play()
 	resin_blocks.clear()
