@@ -12,6 +12,7 @@ func _ready():
 	tilemap.connect("generate_block", progress, "progress", [block_penality])
 	tilemap.connect("prepare_block", self, "_show_next_block")
 	progress.connect("max_reached", self, "_max_ecological_impact")
+	$Grid/TileMap.litho_provider = $Lithographies
 	
 func _max_ecological_impact():
 	print("Ecological impact to high")
