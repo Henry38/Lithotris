@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/Leaderboard.gd" type="Script" id=1]
-[ext_resource path="res://images/classementback.jpg" type="Texture" id=2]
+[ext_resource path="res://images/classementmenu.jpg" type="Texture" id=2]
 [ext_resource path="res://images/retour.png" type="Texture" id=3]
 [ext_resource path="res://scenes/HUBButtons.tscn" type="PackedScene" id=4]
 

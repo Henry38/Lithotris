@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/backmainmenu.jpg-e09e4f9b270245541e18618a45a424a9.stex"
+path="res://.import/classementmenu.jpg-58c828c5cc143f3864cff1dcf2bae737.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/backmainmenu.jpg"
-dest_files=[ "res://.import/backmainmenu.jpg-e09e4f9b270245541e18618a45a424a9.stex" ]
+source_file="res://images/classementmenu.jpg"
+dest_files=[ "res://.import/classementmenu.jpg-58c828c5cc143f3864cff1dcf2bae737.stex" ]
 
 [params]
 
