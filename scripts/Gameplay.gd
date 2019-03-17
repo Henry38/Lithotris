@@ -15,6 +15,7 @@ func _ready():
 	$Grid/TileMap.litho_provider = $Lithographies
 	
 func _max_ecological_impact():
+	tilemap.show_game_over()
 	print("Ecological impact to high")
 
 
