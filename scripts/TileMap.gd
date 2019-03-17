@@ -110,6 +110,7 @@ func init_variable_state():
 	
 func nextLevel():
 	if level == endPointList.size() - 1:
+		print("All level finished !")
 		$timer.set_paused(true)
 		return
 	level += 1
@@ -153,6 +154,10 @@ func createNewBlock():
 	next_block = generate_block()
 	emit_signal("generate_block")
 	emit_signal("prepare_block", next_block)
+	
+	if checkCollisionBlock(current_block):
+		print("Game Over !")
+		$timer.set_paused(true)
 
 func generate_block():
 	var threshold = 60 - (level * 4)
