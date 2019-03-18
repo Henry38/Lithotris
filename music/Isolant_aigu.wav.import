@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Isolant_aigu.wav-d4e45baf1f6dbb4684d06653272f4285.sample"
+
+[deps]
+
+source_file="res://music/Isolant_aigu.wav"
+dest_files=[ "res://.import/Isolant_aigu.wav-d4e45baf1f6dbb4684d06653272f4285.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

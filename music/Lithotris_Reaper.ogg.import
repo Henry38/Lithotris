@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Lithotris_Reaper.ogg-c7ab1e24b24216fa0d793a65f1cd2b7f.oggstr"
+
+[deps]
+
+source_file="res://music/Lithotris_Reaper.ogg"
+dest_files=[ "res://.import/Lithotris_Reaper.ogg-c7ab1e24b24216fa0d793a65f1cd2b7f.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
