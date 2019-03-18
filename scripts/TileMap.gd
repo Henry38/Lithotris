@@ -2,6 +2,7 @@ extends TileMap
 
 signal generate_block
 signal prepare_block
+signal next_level
 
 var FallingObject = preload("res://scripts/FallingObject.gd")
 onready var g = $"/root/global"
@@ -46,9 +47,23 @@ const shapes = [
 func _ready():
 	randomize()
 	init_grid()
+	listenfor_popups()
 #warning-ignore:return_value_discarded
 	$timer.connect("timeout", self, "trigger")
 	$theme.play()
+
+func listenfor_popups():
+	Popups.get_node("PauseDialog").connect("about_to_show", self, "dialog", ["PauseDialog"])
+	Popups.get_node("HelpDialog").connect("about_to_show", self, "dialog", ["HelpDialog"])
+
+func dialog(dialog_name):
+	var val = stateMachine._state
+	stateMachine.show_victory()
+	Popups.get_node(dialog_name).connect("hide", self, "resume", [val, dialog_name])
+	
+func resume(state, nodename):
+	stateMachine._state = state
+	Popups.get_node(nodename).disconnect("hide", self, "resume")
 
 func _process(delta):
 	if stateMachine.is_show_game_over():
@@ -189,6 +204,7 @@ func nextLevel():
 	init_variable_state()
 	stateMachine.reset()
 	$theme.play()
+	emit_signal("next_level")
 
 
 func next_process_step():

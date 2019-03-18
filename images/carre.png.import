@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/carré.png-a324c2a3b6a5b6274a453b3ef8d5e15a.stex"
+path="res://.import/carre.png-c72ddc5582670e9f758167c862baa355.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/carré.png"
-dest_files=[ "res://.import/carré.png-a324c2a3b6a5b6274a453b3ef8d5e15a.stex" ]
+source_file="res://images/carre.png"
+dest_files=[ "res://.import/carre.png-c72ddc5582670e9f758167c862baa355.stex" ]
 
 [params]
 
