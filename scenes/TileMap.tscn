@@ -1,8 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://images/carré.png" type="Texture" id=1]
+[ext_resource path="res://images/carre.png" type="Texture" id=1]
 [ext_resource path="res://images/conducteur.png" type="Texture" id=2]
 [ext_resource path="res://images/isolant.png" type="Texture" id=3]
+
 
 [node name="Tileset" type="Node2D"]
 position = Vector2( 32, 32 )
