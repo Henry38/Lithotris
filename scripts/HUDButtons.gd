@@ -6,9 +6,9 @@ export (bool) var show_pause_button = true
 func _ready():
 	if not show_pause_button:
 		$PauseButton.hide()
-		$SoundButton.connect("pressed", self, "set_mute_state")
 	else:
 		$PauseButton.connect("pressed", self, "pause_popup")
+	$SoundButton.connect("pressed", self, "set_mute_state")
 	$HelpButton.connect("pressed", self, "help_popup")
 		
 func pause_popup():
