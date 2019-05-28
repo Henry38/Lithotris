@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://resources/fonts/Roboto-Bold.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://images/retour.png" type="Texture" id=2]
+[ext_resource path="res://scenes/BackButton.gd" type="Script" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.52549, 0.513726, 0.513726, 1 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "float"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:margin_left")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 10, 0.0 ]
+}
+
+[node name="BackButton" type="Button"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -80.0
+margin_right = 70.0
+focus_mode = 0
+custom_styles/hover = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+enabled_focus_mode = 0
+icon = ExtResource( 2 )
+flat = true
+script = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/float = SubResource( 3 )
+[connection signal="mouse_entered" from="." to="AnimationPlayer" method="play" binds= [ "float" ]]
+[connection signal="mouse_exited" from="." to="AnimationPlayer" method="stop" binds= [ true ]]

@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-export (float) var transition_time = 0.5
+export (float) var transition_time = 0.25
 onready var overlay = $ColorRect
 # Called when the node enters the scene tree for the first time.
 

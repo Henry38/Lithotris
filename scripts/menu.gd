@@ -23,4 +23,4 @@ func play():
 			return
 	config.set_value("config", "did_tuto", true)
 	config.save("user://settings.cfg")
-	Transition.fade_to("res://scenes/Tutorial.tscn")
+	Transition.fade_to("")
