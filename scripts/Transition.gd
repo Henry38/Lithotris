@@ -22,4 +22,3 @@ func fade_to(target):
 	# Wait for the fadeout to complete
 	yield($Tween, "tween_completed")
 	overlay.set_size(Vector2(0,0))
-	$Tween.disconnect("tween_completed", self, "_unfade_to")

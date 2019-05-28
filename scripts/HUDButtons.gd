@@ -8,16 +8,13 @@ func _ready():
 		$PauseButton.hide()
 	else:
 		$PauseButton.connect("pressed", self, "pause_popup")
-	$SoundButton.connect("pressed", self, "set_mute_state")
-	$HelpButton.connect("pressed", self, "help_popup")
 		
 func pause_popup():
 	Popups.get_node("PauseDialog").popup_centered_minsize()
-		
-		
+
 func help_popup():
 	Popups.get_node("HelpDialog").popup_centered()
-		
+
 func set_mute_state():
 	var ismuted = $SoundButton.pressed
 	for i in range (AudioServer.get_bus_count()):
