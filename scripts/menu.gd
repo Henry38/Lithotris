@@ -1,16 +1,11 @@
 extends Node
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-# warning-ignore:return_value_discarded
-	$CenterContainer/VBoxContainer/LeaveButton.connect("pressed", get_tree(), "quit")
-# warning-ignore:return_value_discarded
-	$CenterContainer/VBoxContainer/LeadButton.connect("pressed", Transition, "fade_to", ["res://scenes/Leaderboard.tscn"])
-# warning-ignore:return_value_discarded
-	$CenterContainer/VBoxContainer/CreditsButton.connect("pressed", Transition, "fade_to", ["res://scenes/credits.tscn"])
-# warning-ignore:return_value_discarded
-	$CenterContainer/VBoxContainer/HBoxContainer/PlayButton.connect("pressed", self, "play")
+func quit() -> void:
+	get_tree().quit()
+	
+func fade_to(target : String) -> void:
+	Transition.fade_to(target)
 
 func play():
 	MusicMenu.get_node("Music").stop()
@@ -23,4 +18,4 @@ func play():
 			return
 	config.set_value("config", "did_tuto", true)
 	config.save("user://settings.cfg")
-	Transition.fade_to("")
+	Transition.fade_to("res://scenes/Tutorial.tscn")

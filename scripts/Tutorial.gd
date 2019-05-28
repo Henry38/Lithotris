@@ -14,8 +14,6 @@ func _ready():
 	for s in screens:
 		s.hide()
 	show_screen()
-	$SkipButton.connect("pressed", self, "play")
-	$NextButton.connect("pressed", self, "next_screen")
 	
 
 func show_screen():

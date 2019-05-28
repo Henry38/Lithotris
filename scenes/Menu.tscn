@@ -100,3 +100,7 @@ margin_left = 890.0
 margin_right = 1022.0
 alignment = 2
 show_pause_button = false
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/PlayButton" to="." method="play"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/CreditsButton" to="." method="fade_to" binds= [ "res://scenes/credits.tscn" ]]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/LeadButton" to="." method="fade_to" binds= [ "res://scenes/Leaderboard.tscn" ]]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/LeaveButton" to="." method="quit"]
