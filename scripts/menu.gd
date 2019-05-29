@@ -1,20 +1,21 @@
 extends Node
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-var current_screen = null
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	$LeaveButton.connect("pressed", get_tree(), "quit")
-	$LeadButton.connect("pressed", self, "goto_scene", ["res://scenes/Leaderboard.tscn"])
-	$CreditsButton.connect("pressed", self, "goto_scene", ["res://scenes/credits.tscn"])
-	$PlayButton.connect("pressed", self, "play")
+func quit() -> void:
+	get_tree().quit()
+	
+func fade_to(target : String) -> void:
+	Transition.fade_to(target)
 
 func play():
 	MusicMenu.get_node("Music").stop()
-	goto_scene("res://scenes/Tutorial.tscn")
-
-func goto_scene(scene: String):
-	Transition.fade_to(scene)
+	var config = ConfigFile.new()
+	var err = config.load("user://settings.cfg")
+	if err == OK:
+		var did_tuto = config.get_value("config","did_tuto", false)
+		if did_tuto:
+			Transition.fade_to("res://scenes/Gameplay.tscn")
+			return
+	config.set_value("config", "did_tuto", true)
+	config.save("user://settings.cfg")
+	Transition.fade_to("res://scenes/Tutorial.tscn")

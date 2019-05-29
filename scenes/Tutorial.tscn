@@ -61,3 +61,5 @@ custom_colors/font_color_hover = Color( 0.329412, 0.329412, 0.329412, 1 )
 enabled_focus_mode = 0
 text = "Passer"
 flat = true
+[connection signal="pressed" from="NextButton" to="." method="next_screen"]
+[connection signal="pressed" from="SkipButton" to="." method="play"]

@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-export (float) var transition_time = 0.5
+export (float) var transition_time = 0.25
 onready var overlay = $ColorRect
 # Called when the node enters the scene tree for the first time.
 
@@ -22,4 +22,3 @@ func fade_to(target):
 	# Wait for the fadeout to complete
 	yield($Tween, "tween_completed")
 	overlay.set_size(Vector2(0,0))
-	$Tween.disconnect("tween_completed", self, "_unfade_to")

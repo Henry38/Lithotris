@@ -25,6 +25,7 @@ font_data = ExtResource( 3 )
 layer = 100
 
 [node name="PauseDialog" type="WindowDialog" parent="."]
+visible = true
 margin_right = 300.0
 margin_bottom = 210.0
 custom_constants/close_h_ofs = 0
@@ -78,7 +79,6 @@ custom_fonts/font = SubResource( 2 )
 text = "Menu"
 
 [node name="HelpDialog" type="WindowDialog" parent="."]
-visible = true
 margin_right = 600.0
 margin_bottom = 300.0
 popup_exclusive = true
@@ -112,4 +112,6 @@ margin_right = 564.065
 margin_bottom = 178.815
 custom_fonts/font = SubResource( 4 )
 text = "Litographie"
-
+[connection signal="pressed" from="PauseDialog/VBoxContainer/ResumeButton" to="PauseDialog" method="hide"]
+[connection signal="pressed" from="PauseDialog/VBoxContainer/RestartButton" to="PauseDialog" method="restart"]
+[connection signal="pressed" from="PauseDialog/VBoxContainer/MenuButton" to="PauseDialog" method="goto_menu"]

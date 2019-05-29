@@ -15,7 +15,6 @@ func _ready():
 	arr.sort()
 	arr.invert()
 	show_leaders(arr)
-	$BackButton.connect("pressed", self, "backb")
 	
 func read_file(file):
 	var f = File.new()
@@ -32,6 +31,4 @@ func show_leaders(ary):
 		var score = LABEL.instance()
 		score.text = "Anonyme : " + str(l)
 		$VBoxContainer.add_child(score)
-	
-func backb():
-	Transition.fade_to("res://scenes/Menu.tscn")
+
