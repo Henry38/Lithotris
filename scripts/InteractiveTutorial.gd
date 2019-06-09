@@ -53,14 +53,14 @@ onready var parts = [
 	}
 ]
 
-onready var dialog = $TutoDialog
+onready var dialog = $TutorialDialog
 
 func _ready():
 	for i in parts:
 		i["widget"].visible = false
 	$Grid/TileMap.stateMachine.show_victory()
-	dialog.connect("popup_hide", self, "show_next")
-	dialog.popup_exclusive = true
+	#dialog.connect("popup_hide", self, "show_next")
+	# dialog.popup_exclusive = true
 	show_next()
 	
 func show_next() -> void:
@@ -71,11 +71,11 @@ func show_next() -> void:
 			return
 		var next = parts[0]
 		next["widget"].visible = true
-		dialog.window_title = next["title"]
-		dialog.dialog_text = next["text"].pop_front()
-		dialog.popup_centered()
+		#dialog.window_title = next["title"]
+		#dialog.dialog_text = next["text"].pop_front()
+		#dialog.popup_centered()
 	else:
 		parts[0]["widget"].visible = true
-		dialog.window_title = parts[0]["title"]
-		dialog.dialog_text = parts[0]["text"].pop_front()
-		dialog.popup_centered()
+		#dialog.window_title = parts[0]["title"]
+		#dialog.dialog_text = parts[0]["text"].pop_front()
+		#dialog.popup_centered()

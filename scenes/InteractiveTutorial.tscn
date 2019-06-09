@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scripts/InteractiveTutorial.gd" type="Script" id=1]
 [ext_resource path="res://images/background.jpg" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://resources/fonts/Roboto-Regular.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://scenes/Ecologicalimpact.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/Main.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/TutorialDialog.tscn" type="PackedScene" id=11]
 
 [sub_resource type="DynamicFont" id=1]
 size = 20
@@ -85,6 +86,4 @@ margin_bottom = 89.0
 [node name="Grid" parent="." instance=ExtResource( 10 )]
 position = Vector2( 300, 0 )
 
-[node name="TutoDialog" type="AcceptDialog" parent="."]
-margin_right = 83.0
-margin_bottom = 58.0
+[node name="TutorialDialog" parent="." instance=ExtResource( 11 )]
