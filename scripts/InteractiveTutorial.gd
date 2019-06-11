@@ -11,7 +11,8 @@ onready var parts = [
 				"A droite, en rose, l'arrivée du courant",
 				"Les blocs qui tombent servent à faire le lien"
 			],
-		"widget": $Grid
+		"position": $Grid.get_position(),
+		"size": Vector2(($Grid/TileMap.width + 1) * 32, ($Grid/TileMap.height + 1) * 32)
 	},
 	{
 		"title" : "Score",
@@ -21,7 +22,8 @@ onready var parts = [
 			"Quand l'arrivée et le départ sont reliés, 100 points gagnés",
 			"Et l'arrivée monte d'un étage, augmentant la difficulté du niveau",
 			],
-		"widget" : $ScoreLabel
+		"position" : $ScoreLabel.get_position(),
+		"size" : $ScoreLabel/VBoxContainer.get_size()
 	},
 	{
 		"title" : "Les blocs suivants",
@@ -29,7 +31,8 @@ onready var parts = [
 			"Ici on peut voir le bloc suivant qui va tomber",
 			"Cela permet d'anticiper le placement des blocs"
 			],
-		"widget" : $Incomings	
+		"position" : $Incomings.get_position(),
+		"size" : Vector2(100, 100)# No other choice than hard-coding the value ?
 	},
 	{
 		"title" : "Litographies",
@@ -40,7 +43,8 @@ onready var parts = [
 			"Et elle détruit tous les conducteurs qui sont exposés à la surface (en haut)",
 			"Le nombre de litographies est limité, utilise le intelligement !"
 			],
-		"widget": $Lithographies
+		"position": $Lithographies.get_position(),
+		"size" : Vector2(100, 100)
 	},
 	{
 		"title" : "Impact écologique",
@@ -49,33 +53,37 @@ onready var parts = [
 			"Si la barre se remplie avant la fin de la partie, vous avez perdu !",
 			"Il faut donc essayer de terminer les niveaux le plus rapidement possible"
 			],
-		"widget": $VBoxContainer
+		"position": $VBoxContainer.get_position(),
+		"size" : $VBoxContainer.get_size()
 	}
 ]
 
 onready var dialog = $TutorialDialog
+onready var tween = $Tween
+
+var currentState = {
+	"position" : Vector2(),
+	"size" : Vector2()	
+}
 
 func _ready():
-	for i in parts:
-		i["widget"].visible = false
 	$Grid/TileMap.stateMachine.show_victory()
-	#dialog.connect("popup_hide", self, "show_next")
-	# dialog.popup_exclusive = true
-	show_next()
-	
-func show_next() -> void:
-	if parts[0]["text"].empty():
-		parts.pop_front()
-		if parts.empty(): 
-			emit_signal("tutorial_finished")
-			return
-		var next = parts[0]
-		next["widget"].visible = true
-		#dialog.window_title = next["title"]
-		#dialog.dialog_text = next["text"].pop_front()
-		#dialog.popup_centered()
-	else:
-		parts[0]["widget"].visible = true
-		#dialog.window_title = parts[0]["title"]
-		#dialog.dialog_text = parts[0]["text"].pop_front()
-		#dialog.popup_centered()
+	dialog.connect("next_clicked", self, "next")
+	dialog.connect("skip_clicked", self, "skip")
+	next()
+
+func skip() -> void:
+	print("skip")
+
+func _update_pos(pos: Vector2):
+	currentState["position"] = pos
+	$TutorialDialog.update_rect(currentState["position"], currentState["size"])
+
+func _update_size(size: Vector2):
+	currentState["size"] = size
+	$TutorialDialog.update_rect(currentState["position"], currentState["size"])
+
+func next() -> void:
+	tween.interpolate_method(self, "_update_pos", currentState["position"], parts[0]["position"], 0.5, Tween.TRANS_BACK, Tween.EASE_IN)
+	tween.interpolate_method(self, "_update_size", currentState["size"], parts[0]["size"], 0.5, Tween.TRANS_BACK, Tween.EASE_IN)
+	tween.start()

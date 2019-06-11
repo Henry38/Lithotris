@@ -21,4 +21,3 @@ text = "Lithographies"
 
 [node name="SpriteContainer" type="Node2D" parent="."]
 position = Vector2( 0, 70 )
-

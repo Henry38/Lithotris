@@ -87,3 +87,5 @@ margin_bottom = 89.0
 position = Vector2( 300, 0 )
 
 [node name="TutorialDialog" parent="." instance=ExtResource( 11 )]
+
+[node name="Tween" type="Tween" parent="."]
