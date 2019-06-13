@@ -7,5 +7,5 @@ func add_score(to_add : int):
 	display_score(score)
 	
 func display_score(score: int):
-	$ScoreValue.text = str(score)
+	$VBoxContainer/ScoreValue.text = str(score)
 

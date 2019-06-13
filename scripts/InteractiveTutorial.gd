@@ -31,8 +31,8 @@ onready var parts = [
 			"Ici on peut voir le bloc suivant qui va tomber",
 			"Cela permet d'anticiper le placement des blocs"
 			],
-		"position" : $Incomings.get_position(),
-		"size" : Vector2(100, 100)# No other choice than hard-coding the value ?
+		"position" : $Incomings/IncomingblocLabel.get_position(),
+		"size" :  $Incomings/IncomingblocLabel.get_size() + Vector2(5,200)
 	},
 	{
 		"title" : "Litographies",
@@ -43,8 +43,8 @@ onready var parts = [
 			"Et elle détruit tous les conducteurs qui sont exposés à la surface (en haut)",
 			"Le nombre de litographies est limité, utilise le intelligement !"
 			],
-		"position": $Lithographies.get_position(),
-		"size" : Vector2(100, 100)
+		"position": $Lithographies.get_position() - Vector2(20,0),
+		"size" : Vector2(190, 110)
 	},
 	{
 		"title" : "Impact écologique",
@@ -54,7 +54,7 @@ onready var parts = [
 			"Il faut donc essayer de terminer les niveaux le plus rapidement possible"
 			],
 		"position": $VBoxContainer.get_position(),
-		"size" : $VBoxContainer.get_size()
+		"size" : $VBoxContainer.get_size() + Vector2(90, 30)
 	}
 ]
 
@@ -70,10 +70,11 @@ func _ready():
 	$Grid/TileMap.stateMachine.show_victory()
 	dialog.connect("next_clicked", self, "next")
 	dialog.connect("skip_clicked", self, "skip")
-	next()
+	do_transition()
+	update_text()
 
 func skip() -> void:
-	print("skip")
+	Transition.fade_to("res://scenes/Gameplay.tscn")
 
 func _update_pos(pos: Vector2):
 	currentState["position"] = pos
@@ -83,7 +84,29 @@ func _update_size(size: Vector2):
 	currentState["size"] = size
 	$TutorialDialog.update_rect(currentState["position"], currentState["size"])
 
-func next() -> void:
-	tween.interpolate_method(self, "_update_pos", currentState["position"], parts[0]["position"], 0.5, Tween.TRANS_BACK, Tween.EASE_IN)
-	tween.interpolate_method(self, "_update_size", currentState["size"], parts[0]["size"], 0.5, Tween.TRANS_BACK, Tween.EASE_IN)
+func do_transition():
+	tween.interpolate_method(self, "_update_pos", currentState["position"], parts[0]["position"], 0.5, Tween.TRANS_CIRC, Tween.EASE_OUT)
+	tween.interpolate_method(self, "_update_size", currentState["size"], parts[0]["size"], 0.5, Tween.TRANS_CIRC, Tween.EASE_OUT)
 	tween.start()
+
+func update_text() -> bool:
+	if parts.size() == 0: return false
+	var txts = parts[0]["text"]
+	var retSize = txts.size()
+	if txts.size() > 0:
+		var nxt_txt = txts.pop_front()
+		$TutorialDialog.set_infos(parts[0]["title"], nxt_txt)
+	return retSize > 0
+
+func next() -> void:
+	if parts.size() == 0:
+		Transition.fade_to("res://scenes/Gameplay.tscn")
+		return
+	if update_text(): return
+	parts.pop_front()
+	if parts.size() == 0:
+		$TutorialDialog/VBoxContainer/HBoxContainer/Next.set_text("Jouer")
+	else:
+		update_text()
+		do_transition()
+
